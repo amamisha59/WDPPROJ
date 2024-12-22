@@ -1,5 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_HOUSES = gql`
+  query GetHouses($location: String, $priceRange: [Float!], $houseType: String) {
+    getHouses(location: $location, priceRange: $priceRange, houseType: $houseType) {
+      id
+      title
+      description
+      price
+      location
+      houseType
+      images
+      createdAt
+    }
+  }
+`;
 
 function BuyerDashBoard() {
   const navigate = useNavigate();
@@ -10,27 +26,16 @@ function BuyerDashBoard() {
     location: ''
   });
 
-  // Dummy data for houses - replace with your actual dataZZZ
-  const [houses] = useState([
-    {
-      id: 1,
-      title: 'Modern Villa',
-      description: 'Beautiful modern villa with garden and swimming pool. This luxurious property features 4 bedrooms, 3 bathrooms, a spacious living area, and a modern kitchen. Perfect for families looking for a comfortable and elegant living space.',
-      price: 350000,
-      location: 'New York',
-      type: 'Villa',
-      image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500'
-    },
-    {
-      id: 2,
-      title: 'Cozy Apartment',
-      description: 'Centrally located apartment with amazing city views. Features 2 bedrooms, a modern kitchen, and a balcony. Close to public transportation and shopping centers. Recently renovated with high-end finishes.',
-      price: 200000,
-      location: 'Los Angeles',
-      type: 'Apartment',
-      image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500'
-    },
-  ]);
+  const [activeFilters, setActiveFilters] = useState({
+    location: undefined,
+    priceRange: undefined,
+    houseType: undefined
+  });
+
+  const { loading, error, data, refetch } = useQuery(GET_HOUSES, {
+    variables: activeFilters,
+    fetchPolicy: 'network-only'
+  });
 
   const handleFilterChange = (e) => {
     setFilterData({
@@ -41,20 +46,57 @@ function BuyerDashBoard() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Implement filter logic here
-    console.log('Filter data:', filterData);
+    const newFilters = {
+      location: filterData.location || undefined,
+      priceRange: (filterData.minPrice && filterData.maxPrice) 
+        ? [parseFloat(filterData.minPrice), parseFloat(filterData.maxPrice)] 
+        : undefined,
+      houseType: filterData.houseType || undefined
+    };
+    setActiveFilters(newFilters);
+    refetch(newFilters);
+  };
+
+  const handleClearFilters = () => {
+    setFilterData({
+      minPrice: '',
+      maxPrice: '',
+      houseType: '',
+      location: ''
+    });
+    setActiveFilters({
+      location: undefined,
+      priceRange: undefined,
+      houseType: undefined
+    });
+    refetch({
+      location: undefined,
+      priceRange: undefined,
+      houseType: undefined
+    });
   };
 
   const handleLogout = () => {
-    // Clear all auth data from localStorage
     localStorage.removeItem('userToken');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('userId');
     navigate('/');
   };
 
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-red-500">Error: {error.message}</p>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Buyer Dashboard</h1>
@@ -127,27 +169,54 @@ function BuyerDashBoard() {
                 placeholder="Location"
               />
             </div>
-            <div className="flex items-end">
+            <div className="flex items-end gap-2">
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition-colors"
+                className="flex-1 bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition-colors"
               >
                 Search
               </button>
+              <button
+                type="button"
+                onClick={handleClearFilters}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                Clear
+              </button>
             </div>
           </form>
+          {(activeFilters.location || activeFilters.priceRange || activeFilters.houseType) && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="text-sm text-gray-500">Active Filters:</span>
+              {activeFilters.location && (
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  Location: {activeFilters.location}
+                </span>
+              )}
+              {activeFilters.priceRange && (
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  Price: ${activeFilters.priceRange[0]} - ${activeFilters.priceRange[1]}
+                </span>
+              )}
+              {activeFilters.houseType && (
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  Type: {activeFilters.houseType}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* House Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {houses.map((house) => (
+          {data?.getHouses?.map((house) => (
             <div 
               key={house.id} 
               className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => navigate('/house-description', { state: house })}
             >
               <img
-                src={house.image}
+                src={house.images || 'https://via.placeholder.com/400x300?text=No+Image'}
                 alt={house.title}
                 className="w-full h-48 object-cover"
               />
@@ -168,22 +237,28 @@ function BuyerDashBoard() {
                 </div>
                 <div className="mt-4">
                   <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-                    {house.type}
+                    {house.houseType}
                   </span>
                 </div>
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent card click when clicking the button
-                    console.log('Purchase house:', house.id);
+                    e.stopPropagation();
+                    navigate('/house-description', { state: house });
                   }}
                   className="mt-4 w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                 >
-                  Purchase
+                  View Details
                 </button>
               </div>
             </div>
           ))}
         </div>
+
+        {data?.getHouses?.length === 0 && (
+          <div className="text-center py-10">
+            <p className="text-gray-500 text-xl">No houses found matching your criteria.</p>
+          </div>
+        )}
       </main>
     </div>
   );

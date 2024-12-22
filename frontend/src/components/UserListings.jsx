@@ -1,79 +1,168 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_BOOKED_HOUSES = gql`
+  query GetBookedHouses($userId: ID!) {
+    getBookedHouses(userId: $userId) {
+      id
+      title
+      description
+      price
+      location
+      houseType
+      images
+      createdAt
+      owner
+    }
+  }
+`;
+
+function DetailedHouseCard({ house }) {
+  return (
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      {/* Image Section */}
+      <div className="relative h-64">
+        <img
+          src={house.images || 'https://via.placeholder.com/400x300?text=No+Image'}
+          alt={house.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+          <h3 className="text-2xl font-bold text-white">{house.title}</h3>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-6 space-y-6">
+        {/* Price and Location Section */}
+        <div className="flex justify-between items-center">
+          <div className="space-y-1">
+            <span className="text-3xl font-bold text-green-600">
+              ${house.price.toLocaleString()}
+            </span>
+            <p className="text-gray-600">
+              <i className="fas fa-map-marker-alt mr-2"></i>
+              {house.location}
+            </p>
+          </div>
+          <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+            {house.houseType}
+          </span>
+        </div>
+
+        {/* Description Section */}
+        <div>
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Description</h4>
+          <p className="text-gray-600 leading-relaxed">
+            {house.description || "No description available."}
+          </p>
+        </div>
+
+        {/* Details Section */}
+        <div className="grid grid-cols-2 gap-4 py-4 border-t border-b border-gray-200">
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700">Purchase Date</h4>
+            <p className="text-gray-600">
+              {new Date(parseInt(house.createdAt)).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700">Property Type</h4>
+            <p className="text-gray-600">{house.houseType}</p>
+          </div>
+        </div>
+
+        {/* Status Section */}
+        <div className="bg-green-50 rounded-lg p-4">
+          <div className="flex items-center">
+            <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center">
+              <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h4 className="text-sm font-semibold text-green-800">Purchase Confirmed</h4>
+              <p className="text-sm text-green-600">Property successfully purchased</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function UserListings() {
   const navigate = useNavigate();
-  
-  // Dummy data for purchased houses - replace with actual data
-  const [purchasedHouses] = useState([
-    {
-      id: 1,
-      title: 'Modern Villa',
-      description: 'Beautiful modern villa with garden',
-      price: 350000,
-      location: 'New York',
-      image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500',
-      purchaseDate: '2024-03-15',
-      seller: {
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        phone: '+1 234 567 8900'
-      }
-    },
-    // Add more purchased houses here
-  ]);
+  const userId = localStorage.getItem('userId');
+
+  const { loading, error, data } = useQuery(GET_BOOKED_HOUSES, {
+    variables: { userId },
+    fetchPolicy: 'network-only'
+  });
+
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userId');
+    navigate('/');
+  };
+
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-red-500">Error: {error.message}</p>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">My Purchases</h1>
-          <button
-            onClick={() => navigate('/buyer-dashboard')}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            Back to Dashboard
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate('/buyer-dashboard')}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Back to Dashboard
+            </button>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {purchasedHouses.map((house) => (
-            <div key={house.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-              <img
-                src={house.image}
-                alt={house.title}
-                className="w-full h-48 object-cover rounded-t-lg"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-800">{house.title}</h3>
-                <p className="mt-2 text-gray-600">{house.description}</p>
-                <div className="mt-4 flex justify-between items-center">
-                  <span className="text-2xl font-bold text-green-600">
-                    ${house.price.toLocaleString()}
-                  </span>
-                  <span className="text-gray-500">{house.location}</span>
-                </div>
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <h4 className="font-semibold text-gray-800 mb-2">Seller Information</h4>
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Name:</span> {house.seller.name}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Email:</span> {house.seller.email}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Phone:</span> {house.seller.phone}
-                  </p>
-                  <p className="text-sm text-gray-600 mt-2">
-                    <span className="font-medium">Purchase Date:</span> {house.purchaseDate}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {data?.getBookedHouses?.length === 0 ? (
+          <div className="text-center py-10">
+            <p className="text-gray-500 text-xl">You haven't purchased any properties yet.</p>
+            <button
+              onClick={() => navigate('/buyer-dashboard')}
+              className="mt-4 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Browse Properties
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {data?.getBookedHouses.map((house) => (
+              <DetailedHouseCard key={house.id} house={house} />
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
