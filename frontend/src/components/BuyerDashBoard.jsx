@@ -46,6 +46,9 @@ function BuyerDashBoard() {
   };
 
   const handleLogout = () => {
+    // Clear all auth data from localStorage
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userRole');
     navigate('/');
   };
 

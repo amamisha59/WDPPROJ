@@ -5,35 +5,27 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 
 module.exports = {
-    addHouse: async (parent, { title, description = "null", price, location, houseType, images = "" }, { models, user }) => {
-
+    addHouse: async (parent, args, { models, user }) => {
         if (!user) {
-            throw new AuthenticationError('You must be signed in to create a note');
+            throw new AuthenticationError('You must be signed in to add a house');
         }
 
-        if (!title || !price || !location || !houseType) {
-            throw new Error("Missing required fields. Ensure all required inputs are provided.");
+        try {
+            const newHouse = await models.House.create({
+                title: args.title,
+                description: args.description || "",
+                price: args.price,
+                location: args.location,
+                houseType: args.houseType,
+                images: args.images || "",
+                owner: user.id
+            });
+
+            return newHouse;
+        } catch (err) {
+            console.error('Error adding house:', err);
+            throw new Error('Error adding house');
         }
-
-        // Create a new house object
-        const newHouse = await models.House.create({
-            title,
-            description, // Default to empty string if null
-            price,
-            location,
-            houseType,
-            images,
-            owner: new mongoose.Types.ObjectId(user.id)
-        });
-
-        await models.User.findByIdAndUpdate(
-            user.id,
-            { $push: { listings: newHouse._id } }, // Add the new house to the user's listings
-            { new: true } // Return the updated user object
-        );
-
-        return newHouse;
-
     },
 
     deleteHouse: async (parent, { houseId }, { models, user }) => {

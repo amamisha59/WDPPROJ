@@ -1,30 +1,76 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
+
+const ADD_HOUSE_MUTATION = gql`
+  mutation AddHouse(
+    $title: String!, 
+    $description: String, 
+    $price: Float!, 
+    $location: String!, 
+    $houseType: String!, 
+    $images: String
+  ) {
+    addHouse(
+      title: $title,
+      description: $description,
+      price: $price,
+      location: $location,
+      houseType: $houseType,
+      images: $images
+    ) {
+      id
+      title
+      description
+      price
+      location
+      houseType
+      images
+      owner
+    }
+  }
+`;
 
 function AddHouse() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    type: 'House',
-    price: '',
+    houseType: 'House',
+    price: 0,
     location: '',
-    image: ''
+    images: ''
+  });
+
+  const [addHouse, { loading, error }] = useMutation(ADD_HOUSE_MUTATION, {
+    onCompleted: (data) => {
+      console.log("House added successfully:", data);
+      navigate("/seller-dashboard");
+    },
+    onError: (error) => {
+      console.error("Error adding house:", error);
+    },
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log('Form submitted:', formData);
-    // Redirect to seller dashboard
-    navigate('/seller-dashboard');
+    addHouse({
+      variables: {
+        title: formData.title,
+        description: formData.description || "",
+        price: parseFloat(formData.price),
+        location: formData.location,
+        houseType: formData.houseType,
+        images: formData.images || ""
+      },
+    });
   };
 
   return (
@@ -32,20 +78,31 @@ function AddHouse() {
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Add New Property</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Add New Property
+            </h1>
             <button
-              onClick={() => navigate('/seller-dashboard')}
+              onClick={() => navigate("/seller-dashboard")}
               className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
             >
               Cancel
             </button>
           </div>
 
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 text-red-500 rounded-lg">
+              Error: {error.message}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Title Field */}
+            {/* Title Field - Required */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                Property Title
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Property Title *
               </label>
               <input
                 type="text"
@@ -59,10 +116,13 @@ function AddHouse() {
               />
             </div>
 
-            {/* Description Field */}
+            {/* Description Field - Optional */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                Description
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Description (Optional)
               </label>
               <textarea
                 id="description"
@@ -71,20 +131,22 @@ function AddHouse() {
                 onChange={handleChange}
                 rows={4}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
                 placeholder="Describe your property..."
               />
             </div>
 
-            {/* Type Field */}
+            {/* House Type Field - Required */}
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                Property Type
+              <label
+                htmlFor="houseType"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Property Type *
               </label>
               <select
-                id="type"
-                name="type"
-                value={formData.type}
+                id="houseType"
+                name="houseType"
+                value={formData.houseType}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
@@ -96,10 +158,13 @@ function AddHouse() {
               </select>
             </div>
 
-            {/* Price Field */}
+            {/* Price Field - Required */}
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-                Price ($)
+              <label
+                htmlFor="price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Price ($) *
               </label>
               <input
                 type="number"
@@ -114,10 +179,13 @@ function AddHouse() {
               />
             </div>
 
-            {/* Location Field */}
+            {/* Location Field - Required */}
             <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                Location
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Location *
               </label>
               <input
                 type="text"
@@ -131,33 +199,38 @@ function AddHouse() {
               />
             </div>
 
-            {/* Image URL Field */}
+            {/* Image URL Field - Optional */}
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                Image URL
+              <label
+                htmlFor="images"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Image URL (Optional)
               </label>
               <input
                 type="url"
-                id="image"
-                name="image"
-                value={formData.image}
+                id="images"
+                name="images"
+                value={formData.images}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
                 placeholder="Enter image URL"
               />
             </div>
 
             {/* Preview Section */}
-            {formData.image && (
+            {formData.images && (
               <div className="mt-4">
-                <p className="text-sm font-medium text-gray-700 mb-2">Image Preview</p>
+                <p className="text-sm font-medium text-gray-700 mb-2">
+                  Image Preview
+                </p>
                 <img
-                  src={formData.image}
+                  src={formData.images}
                   alt="Property preview"
                   className="w-full h-48 object-cover rounded-lg"
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL';
+                    e.target.src =
+                      "https://via.placeholder.com/400x300?text=Invalid+Image+URL";
                   }}
                 />
               </div>
@@ -167,11 +240,42 @@ function AddHouse() {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 
-                         transition-colors duration-200 font-medium focus:outline-none focus:ring-2 
-                         focus:ring-offset-2 focus:ring-green-500"
+                disabled={loading}
+                className={`w-full py-3 px-4 rounded-lg font-medium
+                  ${
+                    loading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-500 hover:bg-green-600"
+                  } 
+                  text-white transition-colors duration-200 
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
               >
-                Add Property
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <svg
+                      className="animate-spin h-5 w-5 mr-3"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Adding Property...
+                  </div>
+                ) : (
+                  "Add Property"
+                )}
               </button>
             </div>
           </form>

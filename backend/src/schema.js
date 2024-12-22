@@ -8,8 +8,8 @@ module.exports = gql`
     price: Float! 
     location: String! 
     houseType: String! 
-    images: [String!] 
-    owner: User! 
+    images: String 
+    owner: ID! 
     createdAt: String! 
 }
 
@@ -43,7 +43,7 @@ type Mutation {
         price: Float!, 
         location: String!, 
         houseType: String!, 
-        images: [String!] 
+        images: String 
     ): House 
     deleteHouse(houseId: ID!): Boolean 
     bookHouse(houseId: ID!, userId: ID!): Booking 

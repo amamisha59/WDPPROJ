@@ -21,13 +21,15 @@ db.connect(DB_HOST);
 const getUser = token => {
     if (token) {
         try {
-            // return the user information from the token
-            return jwt.verify(token, process.env.JWT_SECRET);
+            // Remove 'Bearer ' from token
+            const tokenWithoutBearer = token.replace('Bearer ', '');
+            return jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET);
         } catch (err) {
-            // if there's a problem with the token, throw an error
-            throw new Error('Session invalid',err);
+            console.error('Token verification error:', err);
+            return null;
         }
     }
+    return null;
 };
 
 // Apollo Server setup
@@ -35,21 +37,19 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({ req }) => {
-        // get the user token from the headers
-        const token = req.headers.authorization;
-        // try to retrieve a user with the token
+        // Get the user token from the headers
+        const token = req.headers.authorization || '';
+        // Try to retrieve a user with the token
         const user = getUser(token);
-        // for now, let's log the user to the console:
-        console.log(user);
-        // add the db models and the user to the context
+        // Add the user to the context
         return { models, user };
-        }
+    }
 });
 
 async function startServer() {
     await server.start();
     // Apply the Apollo GraphQL middleware and set the path to /api
-    server.applyMiddleware({ app, path: '/frontend' });
+    server.applyMiddleware({ app, path: '/api' });
     app.listen({ port }, () =>
         console.log(
             `GraphQL Server running at http://localhost:${port}${server.graphqlPath}`

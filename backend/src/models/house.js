@@ -21,11 +21,9 @@ const houseSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    images: [
-        {
-            type: String,
-        }
-    ],
+    images: {
+        type: String,
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

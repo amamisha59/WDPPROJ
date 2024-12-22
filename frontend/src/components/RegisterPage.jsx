@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+//import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
@@ -27,7 +27,11 @@ function RegisterPage() {
   const [register, { loading, error }] = useMutation(REGISTER_MUTATION, {
     onCompleted: (data) => {
       console.log('Registration successful:', data);
-      // Route based on role
+      // Store token in localStorage
+      localStorage.setItem('userToken', data.register.token);
+      // Store user role for easy access
+      localStorage.setItem('userRole', data.register.role);
+      localStorage.setItem('userId', data.register.id);
       if (data.register.role === 'Seller') {
         navigate('/seller-dashboard');
       } else {

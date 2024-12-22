@@ -24,6 +24,9 @@ function LoginPage() {
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       console.log('Login successful:', data);
+      localStorage.setItem('userToken', data.login.token);
+      localStorage.setItem('userRole', data.login.role);
+      localStorage.setItem('userId', data.login.id);
       const userRole = data.login.role;
       if (userRole === 'Seller') {
         navigate('/seller-dashboard');
