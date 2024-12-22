@@ -85,7 +85,7 @@ module.exports = {
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET,);
 
             //returns user info along with token
-            return { username: user.username, email: user.email, role: user.role, id: user._id, token: token, };
+            return { username: user.username, email: user.email, role: user.role, id: user._id, token: token};
         } catch (err) {
             // if there's a problem creating the account, throw an error
             throw new Error(err);

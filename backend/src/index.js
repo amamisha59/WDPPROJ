@@ -49,7 +49,7 @@ const server = new ApolloServer({
 async function startServer() {
     await server.start();
     // Apply the Apollo GraphQL middleware and set the path to /api
-    server.applyMiddleware({ app, path: '/api' });
+    server.applyMiddleware({ app, path: '/frontend' });
     app.listen({ port }, () =>
         console.log(
             `GraphQL Server running at http://localhost:${port}${server.graphqlPath}`

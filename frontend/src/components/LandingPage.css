@@ -1,4 +1,4 @@
-/* .landing-container {
+.landing-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -57,4 +57,4 @@
 .register {
   background-color: #2ecc71;
   color: white;
-}  */
+}
