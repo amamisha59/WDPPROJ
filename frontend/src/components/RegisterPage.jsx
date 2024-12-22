@@ -1,5 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { gql, useMutation } from '@apollo/client';
+
+const REGISTER_MUTATION = gql`
+  mutation Register($username: String!, $email: String!, $password: String!, $role: String!) {
+    register(username: $username, email: $email, password: $password, role: $role) {
+      id
+      username
+      email
+      role
+      token
+    }
+  }
+`;
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -8,6 +21,18 @@ function RegisterPage() {
     email: '',
     password: '',
     role: 'Buyer'
+  });
+
+  const [register, { loading, error }] = useMutation(REGISTER_MUTATION, {
+    onCompleted: (data) => {
+      console.log('Registration successful:', data);
+      // Route based on role
+      if (data.register.role === 'Seller') {
+        navigate('/seller-dashboard');
+      } else {
+        navigate('/buyer-dashboard');
+      }
+    }
   });
 
   const handleChange = (e) => {
@@ -19,15 +44,7 @@ function RegisterPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Registration data:', formData);
-    
-    // Route based on role
-    if (formData.role === 'Seller') {
-      navigate('/seller-dashboard');
-    } else {
-      navigate('/buyer-dashboard');
-    }
+    register({ variables: { ...formData } });
   };
 
   return (
@@ -109,6 +126,9 @@ function RegisterPage() {
             Register
           </button>
         </form>
+
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
 
         <p className="text-center text-gray-600">
           Already have an account?{' '}

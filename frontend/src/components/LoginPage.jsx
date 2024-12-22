@@ -1,11 +1,36 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { gql, useMutation } from '@apollo/client';
+
+const LOGIN_MUTATION = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      id
+      username
+      email
+      role
+      token
+    }
+  }
+`;
 
 function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
+  });
+
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: (data) => {
+      console.log('Login successful:', data);
+      const userRole = data.login.role;
+      if (userRole === 'Seller') {
+        navigate('/seller-dashboard');
+      } else {
+        navigate('/buyer-dashboard');
+      }
+    }
   });
 
   const handleChange = (e) => {
@@ -17,18 +42,7 @@ function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login data:', formData);
-    
-    // For demonstration purposes, you would typically get the user role from your authentication response
-    // This is just a placeholder - replace with actual authentication logic
-    const userRole = 'Seller'; // This would come from your auth response
-    
-    if (userRole === 'Seller') {
-      navigate('/seller-dashboard');
-    } else {
-      navigate('/buyer-dashboard');
-    }
+    login({ variables: { ...formData } });
   };
 
   return (
@@ -79,6 +93,9 @@ function LoginPage() {
             Login
           </button>
         </form>
+
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
 
         <p className="text-center text-gray-600">
           Don't have an account?{' '}

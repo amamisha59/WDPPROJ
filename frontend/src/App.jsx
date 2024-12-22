@@ -8,9 +8,19 @@ import BuyerDashBoard from "./components/BuyerDashBoard";
 import AddHouse from "./components/AddHouse";
 import UserListings from "./components/UserListings";
 import HouseDescription from "./components/HouseDescription";
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+const uri = "http://localhost:4001/api";
+const cache = new InMemoryCache();
+// configure Apollo Client
+const client = new ApolloClient({
+ uri,
+ cache,
+ connectToDevTools: true
+});
 
 function App() {
   return (
+  <ApolloProvider client={client}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -23,6 +33,7 @@ function App() {
         <Route path="/house-description" element={<HouseDescription />} />
       </Routes>
     </BrowserRouter>
+    </ApolloProvider>
   );
 }
 
