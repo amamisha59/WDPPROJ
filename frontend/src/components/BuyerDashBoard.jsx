@@ -46,11 +46,18 @@ function BuyerDashBoard() {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    let priceRange;
+    if (filterData.minPrice && filterData.maxPrice) {
+      priceRange = [parseFloat(filterData.minPrice), parseFloat(filterData.maxPrice)];
+    } else if (filterData.minPrice) {
+      priceRange = [parseFloat(filterData.minPrice), Number.MAX_SAFE_INTEGER];
+    } else if (filterData.maxPrice) {
+      priceRange = [0, parseFloat(filterData.maxPrice)];
+    }
+
     const newFilters = {
       location: filterData.location || undefined,
-      priceRange: (filterData.minPrice && filterData.maxPrice) 
-        ? [parseFloat(filterData.minPrice), parseFloat(filterData.maxPrice)] 
-        : undefined,
+      priceRange: priceRange,
       houseType: filterData.houseType || undefined
     };
     setActiveFilters(newFilters);

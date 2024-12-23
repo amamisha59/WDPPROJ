@@ -1,4 +1,3 @@
-
 module.exports = {
   getHouses: async (parent, { location, priceRange, houseType }, { models }) => {
     let query = {};
@@ -6,8 +5,12 @@ module.exports = {
     if (location) query.location = location;
     if (houseType) query.houseType = houseType;
 
-    if (priceRange && priceRange.length === 2) {
-      query.price = { $gte: priceRange[0], $lte: priceRange[1] };
+    if (priceRange) {
+      const [minPrice, maxPrice] = priceRange;
+      query.price = { 
+        ...(minPrice !== undefined && { $gte: minPrice }),
+        ...(maxPrice !== undefined && { $lte: maxPrice })
+      };
     }
 
     return await models.House.find(query).limit(100);
