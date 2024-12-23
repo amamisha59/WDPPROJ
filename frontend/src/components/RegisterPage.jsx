@@ -56,36 +56,50 @@ function RegisterPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Images */}
       <div className="fixed inset-0 bg-black/80">
-        <div className="absolute inset-0">
-          {/* Floating Images with Random Positioning */}
-          <div className="absolute h-[60vh] w-[35vw] left-[12vw] top-[8vh] z-20 shadow-2xl overflow-hidden rotate-6">
+        <div className="absolute inset-0 grid grid-cols-8 grid-rows-8 gap-4 p-4">
+          {/* Top Row */}
+          <div className="relative col-span-3 row-span-3 rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80" 
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              className="w-full h-full object-cover hover:scale-105 transition-all duration-700 opacity-95"
               alt="House 1"
             />
           </div>
-          <div className="absolute h-[48vh] w-[28vw] right-[15vw] top-[15vh] z-10 shadow-2xl overflow-hidden -rotate-3">
+          
+          <div className="relative col-span-2 row-span-4 col-start-4 rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2084&q=80" 
+              className="w-full h-full object-cover hover:scale-105 transition-all duration-700 opacity-95"
               alt="House 2"
             />
           </div>
-          <div className="absolute h-[52vh] w-[32vw] right-[8vw] bottom-[12vh] z-30 shadow-2xl overflow-hidden rotate-4">
+          
+          <div className="relative col-span-3 row-span-4 col-start-6 rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              className="w-full h-full object-cover hover:scale-105 transition-all duration-700 opacity-95"
               alt="House 3"
             />
           </div>
-          <div className="absolute h-[45vh] w-[26vw] left-[18vw] bottom-[15vh] z-15 shadow-2xl overflow-hidden -rotate-6">
+          
+          <div className="relative col-span-3 row-span-5 row-start-4 rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              className="w-full h-full object-cover hover:scale-105 transition-all duration-700 opacity-95"
               alt="House 4"
             />
           </div>
+          
+          <div className="relative col-span-5 row-span-4 col-start-4 row-start-5 rounded-2xl overflow-hidden shadow-2xl">
+            <img 
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80" 
+              className="w-full h-full object-cover hover:scale-105 transition-all duration-700 opacity-95"
+              alt="House 5"
+            />
+          </div>
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-black/5 to-black/20 backdrop-blur-[0.5px]"></div>
         </div>
       </div>
 

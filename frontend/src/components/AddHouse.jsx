@@ -133,34 +133,13 @@ function AddHouse() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Images */}
       <div className="fixed inset-0 bg-black/80">
-        <div className="absolute inset-0">
-          {/* Floating Images with Random Positioning */}
-          <div className="absolute h-[58vh] w-[32vw] left-[10vw] top-[10vh] z-20 shadow-2xl overflow-hidden rotate-3">
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Single Full Cover Background Image */}
+          <div className="absolute inset-0 w-full h-full">
             <img 
-              src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 1"
-            />
-          </div>
-          <div className="absolute h-[45vh] w-[28vw] right-[8vw] top-[15vh] z-10 shadow-2xl overflow-hidden -rotate-6">
-            <img 
-              src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 2"
-            />
-          </div>
-          <div className="absolute h-[50vh] w-[30vw] right-[12vw] bottom-[12vh] z-30 shadow-2xl overflow-hidden rotate-6">
-            <img 
-              src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 3"
-            />
-          </div>
-          <div className="absolute h-[42vh] w-[26vw] left-[15vw] bottom-[8vh] z-15 shadow-2xl overflow-hidden -rotate-2">
-            <img 
-              src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2084&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 4"
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              className="w-full h-full object-cover opacity-90 transform scale-105 transition-transform duration-1000"
+              alt="Background House"
             />
           </div>
         </div>

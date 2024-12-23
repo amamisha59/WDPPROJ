@@ -7,36 +7,17 @@ function LandingPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Images */}
       <div className="fixed inset-0 bg-black/80">
-        <div className="absolute inset-0">
-          {/* Floating Images with Random Positioning */}
-          <div className="absolute h-[70vh] w-[32vw] left-[8vw] top-[5vh] z-20 shadow-2xl overflow-hidden rotate-2">
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Single Full Cover Background Image with Transparency */}
+          <div className="absolute inset-0 w-full h-full">
             <img 
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 1"
+              src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2084&q=80" 
+              className="w-full h-full object-cover opacity-90 transform scale-105 transition-transform duration-1000"
+              alt="Background House"
             />
           </div>
-          <div className="absolute h-[45vh] w-[28vw] right-[12vw] top-[12vh] z-10 shadow-2xl overflow-hidden -rotate-3">
-            <img 
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2075&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 2"
-            />
-          </div>
-          <div className="absolute h-[55vh] w-[30vw] right-[5vw] bottom-[8vh] z-30 shadow-2xl overflow-hidden rotate-6">
-            <img 
-              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 3"
-            />
-          </div>
-          <div className="absolute h-[42vh] w-[25vw] left-[15vw] bottom-[10vh] z-15 shadow-2xl overflow-hidden -rotate-4">
-            <img 
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80" 
-              className="w-full h-full object-cover"
-              alt="House 4"
-            />
-          </div>
+          {/* Additional overlay for better text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
         </div>
       </div>
 
