@@ -33,6 +33,7 @@ type Query {
     getHouseById(houseId: ID!): House 
     getUserListings(userId: ID!): [House!] 
     getBookedHouses: [Booking!]!
+    getSoldHouses(userId: ID!): [Booking!]!
 } 
 type Mutation { 
     register(username: String!, email: String!, password: String!, role: String!): User 

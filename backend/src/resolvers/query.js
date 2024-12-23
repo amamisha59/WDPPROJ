@@ -38,7 +38,26 @@ module.exports = {
   },
 
   getUserListings: async (parent, { userId }, { models }) => {
-    return await models.House.find({ owner: userId });
+    try {
+      // Get IDs of all booked houses
+      const bookedHouseIds = await models.Booking.find({
+        status: 'confirmed'
+      }).distinct('house');
+
+      // Find houses that belong to the user and are not booked
+      const query = {
+        owner: userId,
+        _id: { $nin: bookedHouseIds }
+      };
+
+      console.log('Seller listings query:', query);
+
+      const houses = await models.House.find(query);
+      return houses;
+    } catch (error) {
+      console.error('Error in getUserListings:', error);
+      throw new Error('Failed to fetch user listings: ' + error.message);
+    }
   },
 
   getBookedHouses: async (parent, args, { models, user }) => {
@@ -63,6 +82,26 @@ module.exports = {
     } catch (error) {
       console.error('Error in getBookedHouses:', error);
       throw new Error('Failed to fetch booked houses: ' + error.message);
+    }
+  },
+
+  getSoldHouses: async (parent, { userId }, { models }) => {
+    try {
+      // Find all confirmed bookings for houses owned by this seller
+      const bookings = await models.Booking.find({
+        status: 'confirmed'
+      })
+      .populate({
+        path: 'house',
+        match: { owner: userId }
+      })
+      .exec();
+
+      // Filter out bookings where house is null (not owned by this seller)
+      return bookings.filter(booking => booking.house !== null);
+    } catch (error) {
+      console.error('Error in getSoldHouses:', error);
+      throw new Error('Failed to fetch sold houses: ' + error.message);
     }
   }
 

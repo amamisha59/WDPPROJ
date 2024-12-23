@@ -10,6 +10,7 @@ import UserListings from "./components/UserListings";
 import HouseDescription from "./components/HouseDescription";
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import SoldHouse from './components/SoldHouse';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4001/api'
@@ -54,6 +55,7 @@ function App() {
           <Route path="/add-house" element={<AddHouse />} />
           <Route path="/user-listings" element={<UserListings />} />
           <Route path="/house-description" element={<HouseDescription />} />
+          <Route path="/sold-houses" element={<SoldHouse />} />
         </Routes>
       </BrowserRouter>
     </ApolloProvider>
