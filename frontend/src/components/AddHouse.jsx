@@ -39,8 +39,10 @@ function AddHouse() {
     houseType: 'House',
     price: '0',
     location: '',
-    images: ''
+    images: null
   });
+
+  const [imagePreview, setImagePreview] = useState(null);
 
   const [addHouse, { loading, error }] = useMutation(ADD_HOUSE_MUTATION, {
     onCompleted: (data) => {
@@ -53,10 +55,26 @@ function AddHouse() {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === 'images') {
+      const file = e.target.files[0];
+      if (file) {
+        setFormData({
+          ...formData,
+          images: file
+        });
+        // Create preview URL
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handlePriceFieldFocus = (e) => {
@@ -79,16 +97,36 @@ function AddHouse() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addHouse({
-      variables: {
-        title: formData.title,
-        description: formData.description || "",
-        price: parseFloat(formData.price || 0),
-        location: formData.location,
-        houseType: formData.houseType,
-        images: formData.images || ""
-      },
-    });
+    // Convert image to base64 before sending
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      addHouse({
+        variables: {
+          title: formData.title,
+          description: formData.description || "",
+          price: parseFloat(formData.price || 0),
+          location: formData.location,
+          houseType: formData.houseType,
+          images: reader.result || ""
+        },
+      });
+    };
+    
+    if (formData.images) {
+      reader.readAsDataURL(formData.images);
+    } else {
+      // If no image, submit without image
+      addHouse({
+        variables: {
+          title: formData.title,
+          description: formData.description || "",
+          price: parseFloat(formData.price || 0),
+          location: formData.location,
+          houseType: formData.houseType,
+          images: ""
+        },
+      });
+    }
   };
 
   return (
@@ -236,36 +274,49 @@ function AddHouse() {
                   />
                 </div>
 
-                {/* Image URL Field */}
+                {/* Image Upload Field */}
                 <div className="group">
                   <label htmlFor="images" className="block text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors">
-                    Image URL
+                    Property Image
                   </label>
-                  <input
-                    type="url"
-                    id="images"
-                    name="images"
-                    value={formData.images}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-all duration-300 hover:border-blue-400"
-                    placeholder="Enter image URL"
-                  />
+                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-blue-400 transition-all duration-300">
+                    <div className="space-y-1 text-center">
+                      <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label htmlFor="images" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                          <span>Upload a file</span>
+                          <input
+                            id="images"
+                            name="images"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleChange}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                      <p className="text-xs text-amber-600 font-medium mt-2">
+                        ⚠️ For better performance, please use images less than 100KB
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Image Preview */}
-            {formData.images && (
+            {imagePreview && (
               <div className="mt-6 animate-fadeIn">
                 <p className="text-sm font-medium text-gray-700 mb-2">Image Preview</p>
                 <div className="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <img
-                    src={formData.images}
+                    src={imagePreview}
                     alt="Property preview"
                     className="w-full h-64 object-cover transform hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      e.target.src = "https://via.placeholder.com/800x400?text=Invalid+Image+URL";
-                    }}
                   />
                 </div>
               </div>
