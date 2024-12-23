@@ -72,18 +72,58 @@
     transform: scale(0.98);
   }
   
-  /* Card animations and styling */
+  /* Updated house card styling */
   .house-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    --background: linear-gradient(to right, #74ebd5 0%, #acb6e5 100%);
+    padding: 5px;
+    border-radius: 1rem;
+    overflow: visible;
+    background: var(--background);
+    position: relative;
+    z-index: 1;
     transition: all 0.3s ease;
   }
   
-  .house-card:hover {
+  .house-card::before,
+  .house-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+  }
+  
+  .house-card::before {
+    background: linear-gradient(to bottom right, #f6d365 0%, #fda085 100%);
+    transform: rotate(2deg);
+  }
+  
+  .house-card::after {
+    background: linear-gradient(to top right, #84fab0 0%, #8fd3f4 100%);
+    transform: rotate(-2deg);
+  }
+  
+  .house-card-content {
+    background: #292b2c;
+    color: #ffffff;
+    border-radius: 0.7rem;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+  }
+  
+  .house-card:hover::before,
+  .house-card:hover::after {
+    opacity: 0;
+  }
+  
+  .house-card:hover .house-card-content {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.99);
   }
   
   /* Filter section styling */

@@ -247,45 +247,47 @@ function BuyerDashBoard() {
               className="house-card"
               onClick={() => navigate("/house-description", { state: house })}
             >
-              <img
-                src={
-                  house.images ||
-                  "https://via.placeholder.com/400x300?text=No+Image"
-                }
-                alt={house.title}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-100">
-                  {house.title}
-                </h3>
-                <p className="text-gray-100 mt-2 truncate group relative cursor-help">
-                  {house.description}
-                  {/* Tooltip for full description */}
-                  <span className="invisible group-hover:visible absolute left-0 top-full w-64 bg-black text-white text-sm rounded p-2 z-10">
+              <div className="house-card-content">
+                <img
+                  src={
+                    house.images ||
+                    "https://via.placeholder.com/400x300?text=No+Image"
+                  }
+                  alt={house.title}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                />
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-gray-100">
+                    {house.title}
+                  </h3>
+                  <p className="text-gray-100 mt-2 truncate group relative cursor-help">
                     {house.description}
-                  </span>
-                </p>
-                <div className="mt-4 flex justify-between items-center">
-                  <span className="text-2xl font-bold text-gray-300">
-                    ${house.price.toLocaleString()}
-                  </span>
-                  <span className="text-gray-100">{house.location}</span>
+                    {/* Tooltip for full description */}
+                    <span className="invisible group-hover:visible absolute left-0 top-full w-64 bg-black text-white text-sm rounded p-2 z-10">
+                      {house.description}
+                    </span>
+                  </p>
+                  <div className="mt-4 flex justify-between items-center">
+                    <span className="text-2xl font-bold text-gray-300">
+                      ${house.price.toLocaleString()}
+                    </span>
+                    <span className="text-gray-100">{house.location}</span>
+                  </div>
+                  <div className="mt-4">
+                    <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+                      {house.houseType}
+                    </span>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/house-description", { state: house });
+                    }}
+                    className="mt-4 w-full py-2 bg-gray-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                  >
+                    View Details
+                  </button>
                 </div>
-                <div className="mt-4">
-                  <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-                    {house.houseType}
-                  </span>
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate("/house-description", { state: house });
-                  }}
-                  className="mt-4 w-full py-2 bg-gray-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                >
-                  View Details
-                </button>
               </div>
             </div>
           ))}
