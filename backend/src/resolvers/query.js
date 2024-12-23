@@ -13,7 +13,24 @@ module.exports = {
       };
     }
 
-    return await models.House.find(query).limit(100);
+    try {
+      // Get IDs of all booked houses
+      const bookedHouseIds = await models.Booking.find({
+        status: 'confirmed'
+      }).distinct('house');
+
+      // Add condition to exclude booked houses
+      query._id = {
+        $nin: bookedHouseIds
+      };
+
+      console.log('Query with booked houses excluded:', query);
+
+      return await models.House.find(query).limit(100);
+    } catch (error) {
+      console.error('Error in getHouses:', error);
+      throw new Error('Failed to fetch houses: ' + error.message);
+    }
   },
 
   getHouseById: async (parent, { houseId }, { models }) => {
@@ -24,20 +41,27 @@ module.exports = {
     return await models.House.find({ owner: userId });
   },
 
-  getBookedHouses: async (parent, { userId }, { models, user }) => {
-    if (!user || user.id !== userId) {
+  getBookedHouses: async (parent, args, { models, user }) => {
+    if (!user) {
       throw new AuthenticationError('You are not authorized to view this information');
     }
 
     try {
-      const bookings = await models.Booking.find({ user: userId })
-        .populate('house') // Populate house details for each booking
-        .exec();
+      console.log('User ID:', user.id);
+      const bookings = await models.Booking.find({ 
+        user: user.id,
+        status: 'confirmed'
+      }).exec();
 
-      const houses = bookings.map(booking => booking.house);
+      console.log('Found bookings:', bookings);
 
-      return houses;
+      if (!bookings || bookings.length === 0) {
+        return [];
+      }
+
+      return bookings;
     } catch (error) {
+      console.error('Error in getBookedHouses:', error);
       throw new Error('Failed to fetch booked houses: ' + error.message);
     }
   }

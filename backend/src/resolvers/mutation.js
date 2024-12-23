@@ -108,36 +108,42 @@ module.exports = {
 
     },
 
-    bookHouse: async (parent, { houseId, userId }, { user, models }) => {
+    bookHouse: async (parent, { houseId }, { user, models }) => {
+        if (!user) {
+            throw new AuthenticationError('You must be logged in to book a house');
+        }
+
         try {
-            // Validate the house and user exist (optional but recommended)
+            // Check if the house is already booked
+            const existingBooking = await models.Booking.findOne({ house: houseId });
+            if (existingBooking) {
+                throw new Error('House is already booked');
+            }
+
+            // Validate the house exists
             const house = await models.House.findById(houseId);
             if (!house) {
                 throw new Error('House not found');
-            }
-            const user = await models.User.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
             }
 
             // Create a new booking
             const booking = new models.Booking({
                 house: houseId,
-                user: userId,
-                bookingDate: new Date(), // Booking date is set to the current time
-                status: 'confirmed',      // Default status
+                user: user.id,
+                bookingDate: new Date(),
+                status: 'confirmed'
             });
 
-            // Save the booking to the database
             const savedBooking = await booking.save();
 
             // Populate the booking with house and user details before returning
-            const populatedBooking = await models.Booking.findById(booking._id)
+            const populatedBooking = await models.Booking.findById(savedBooking._id)
                 .populate('house')
                 .populate('user');
+
             return populatedBooking;
         } catch (error) {
-            throw new Error(error);
+            throw new Error(error.message);
         }
     },
 

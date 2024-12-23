@@ -2,22 +2,29 @@ import { useNavigate } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_BOOKED_HOUSES = gql`
-  query GetBookedHouses($userId: ID!) {
-    getBookedHouses(userId: $userId) {
+  query GetBookedHouses {
+    getBookedHouses {
       id
-      title
-      description
-      price
-      location
-      houseType
-      images
-      createdAt
-      owner
+      bookingDate
+      status
+      house {
+        id
+        title
+        description
+        price
+        location
+        houseType
+        images
+        createdAt
+        owner
+      }
     }
   }
 `;
 
-function DetailedHouseCard({ house }) {
+function DetailedHouseCard({ booking }) {
+  const house = booking.house;
+
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Image Section */}
@@ -50,20 +57,12 @@ function DetailedHouseCard({ house }) {
           </span>
         </div>
 
-        {/* Description Section */}
-        <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Description</h4>
-          <p className="text-gray-600 leading-relaxed">
-            {house.description || "No description available."}
-          </p>
-        </div>
-
-        {/* Details Section */}
+        {/* Booking Details Section */}
         <div className="grid grid-cols-2 gap-4 py-4 border-t border-b border-gray-200">
           <div>
-            <h4 className="text-sm font-semibold text-gray-700">Purchase Date</h4>
+            <h4 className="text-sm font-semibold text-gray-700">Booking Date</h4>
             <p className="text-gray-600">
-              {new Date(parseInt(house.createdAt)).toLocaleDateString('en-US', {
+              {new Date(booking.bookingDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -71,8 +70,8 @@ function DetailedHouseCard({ house }) {
             </p>
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-gray-700">Property Type</h4>
-            <p className="text-gray-600">{house.houseType}</p>
+            <h4 className="text-sm font-semibold text-gray-700">Status</h4>
+            <p className="text-gray-600">{booking.status}</p>
           </div>
         </div>
 
@@ -85,8 +84,8 @@ function DetailedHouseCard({ house }) {
               </svg>
             </div>
             <div className="ml-3">
-              <h4 className="text-sm font-semibold text-green-800">Purchase Confirmed</h4>
-              <p className="text-sm text-green-600">Property successfully purchased</p>
+              <h4 className="text-sm font-semibold text-green-800">Booking {booking.status}</h4>
+              <p className="text-sm text-green-600">Property successfully booked</p>
             </div>
           </div>
         </div>
@@ -97,10 +96,8 @@ function DetailedHouseCard({ house }) {
 
 function UserListings() {
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId');
 
   const { loading, error, data } = useQuery(GET_BOOKED_HOUSES, {
-    variables: { userId },
     fetchPolicy: 'network-only'
   });
 
@@ -158,8 +155,8 @@ function UserListings() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {data?.getBookedHouses.map((house) => (
-              <DetailedHouseCard key={house.id} house={house} />
+            {data?.getBookedHouses.map((booking) => (
+              <DetailedHouseCard key={booking.id} booking={booking} />
             ))}
           </div>
         )}
