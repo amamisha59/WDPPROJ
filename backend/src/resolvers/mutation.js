@@ -20,6 +20,11 @@ module.exports = {
                 images: args.images || "",
                 owner: user.id
             });
+            await models.User.findByIdAndUpdate(
+                user.id,
+                { $push: { listings: newHouse._id } }, // Add the house ID to the user's listings array
+                { new: true }
+            );
 
             return newHouse;
         } catch (err) {
