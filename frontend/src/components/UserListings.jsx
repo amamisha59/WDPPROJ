@@ -47,7 +47,7 @@ function DetailedHouseCard({ booking }) {
         <div className="flex justify-between items-center">
           <div className="space-y-1">
             <span className="text-3xl font-bold text-emerald-400 drop-shadow-md">
-              ${house.price.toLocaleString()}
+            ₹{house.price.toLocaleString()}
             </span>
             <p className="text-gray-300">
               <i className="fas fa-map-marker-alt mr-2"></i>
@@ -153,7 +153,7 @@ function UserListings() {
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         {data?.getBookedHouses?.length === 0 ? (
           <div className="text-center py-10">
-            <p className="text-gray-300 text-xl drop-shadow-md">You haven't purchased any properties yet.</p>
+            <p className="text-gray-300 text-xl drop-shadow-md">You haven&apos;t purchased any properties yet.</p>
             <button
               onClick={() => navigate('/buyer-dashboard')}
               className="mt-4 px-6 py-3 bg-blue-500/90 text-white rounded-lg font-semibold 

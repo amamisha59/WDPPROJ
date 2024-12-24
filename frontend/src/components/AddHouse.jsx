@@ -121,7 +121,7 @@ function AddHouse() {
           title: formData.title,
           description: formData.description || "",
           price: parseFloat(formData.price || 0),
-          location: formData.location,
+          location: formData.location.toLowerCase(),
           houseType: formData.houseType,
           images: ""
         },
@@ -217,11 +217,11 @@ function AddHouse() {
                     {/* Price Field */}
                     <div className="group">
                       <label className="block text-sm font-medium text-gray-200 drop-shadow-sm mb-2">
-                        Price ($) *
+                        Price (₹) *
                       </label>
                       <div className="mt-1 relative rounded-lg shadow-sm">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <span className="text-gray-400 sm:text-sm">$</span>
+                          <span className="text-gray-400 sm:text-sm">₹</span>
                         </div>
                         <input
                           type="number"

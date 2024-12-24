@@ -52,7 +52,8 @@ function DetailedSoldHouseCard({ booking }) {
         <div className="flex justify-between items-center">
           <div className="space-y-1">
             <span className="text-3xl font-bold text-emerald-400 drop-shadow-md">
-              ${house.price.toLocaleString()}
+            ₹{house.price.toLocaleString()}
+             
             </span>
             <p className="text-gray-300">
               <i className="fas fa-map-marker-alt"></i>
@@ -70,7 +71,8 @@ function DetailedSoldHouseCard({ booking }) {
           <div>
             <h4 className="text-sm font-semibold text-gray-200">Sale Date</h4>
             <p className="text-gray-300">
-              {new Date().toLocaleDateString('en-US', {
+              {/* {console.log(booking.bookingDate)} */}
+              {new Date(booking.bookingDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'

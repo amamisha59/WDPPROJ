@@ -68,7 +68,7 @@ function BuyerDashBoard() {
     }
 
     const newFilters = {
-      location: filterData.location || undefined,
+      location: filterData.location.toLowerCase() || undefined,
       priceRange: priceRange,
       houseType: filterData.houseType || undefined,
     };

@@ -1,4 +1,3 @@
-//import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
@@ -184,7 +183,7 @@ function RegisterPage() {
           </form>
 
           {loading && <p className="text-white">Loading...</p>}
-          {error && <p className="text-red-400">Error: {error.message}</p>}
+          {error && <p className="text-red-400 font-bold text-center"> {error.message}</p>}
 
           <p className="text-center text-gray-200">
             Already have an account?{' '}

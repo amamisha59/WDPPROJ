@@ -2,15 +2,15 @@ module.exports = {
   Booking: {
     house: async (booking, args, { models }) => {
       try {
-        console.log('Booking object:', booking);
-        console.log('House ID:', booking.house);
+        // console.log('Booking object:', booking);
+        // console.log('House ID:', booking.house);
 
         if (!booking.house) {
           throw new Error('No house ID found in booking');
         }
 
         const house = await models.House.findById(booking.house);
-        console.log('Found house:', house);
+        //console.log('Found house:', house);
 
         if (!house) {
           throw new Error('House not found');
