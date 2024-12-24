@@ -194,7 +194,7 @@ function SellerDashBoard() {
                     </div>
                     <div className="mt-2 text-sm text-gray-400">
                       Listed on:{" "}
-                      {new Date(house.createdAt).toLocaleDateString()}
+                      {new Date().toLocaleDateString()}
                     </div>
                   </div>
                 </div>
