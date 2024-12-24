@@ -89,7 +89,7 @@ function SellerDashBoard() {
       <header className="dashboard-header">
         <div className="header-content">
           <h1 className="text-3xl font-bold text-yellow-500">
-            Sales Hub
+            <span className="text-5xl">S</span>ales <span className="text-5xl">H</span>ub
           </h1>
           <div className="buttons-container">
             <button

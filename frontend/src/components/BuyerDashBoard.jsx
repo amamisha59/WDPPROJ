@@ -120,7 +120,9 @@ function BuyerDashBoard() {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="header-content">
-          <h1 className="text-3xl font-bold text-yellow-500">Property Board</h1>
+          <h1 className="text-3xl font-bold text-yellow-500">
+            <span className="text-5xl">P</span>roperty <span className="text-5xl">B</span>oard
+          </h1>
           <div className="buttons-container">
             <button
               onClick={() => navigate("/user-listings")}

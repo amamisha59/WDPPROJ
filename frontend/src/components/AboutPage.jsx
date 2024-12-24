@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { FaLinkedin, FaInstagram } from 'react-icons/fa'; // Import icons
 import "./AboutPage.css";
 
 function AboutPage() {
@@ -8,33 +9,46 @@ function AboutPage() {
   const teamMembers = [
     {
       name: "Aditya Prakash Swain",
-      image: "https://via.placeholder.com/150",
-      description: "John is the lead developer, passionate about building scalable applications."
+      image: "/aditya.jpg",
+      description: "Aditya Prakash Swain is the key player in our team, contributing extensively to both frontend and backend development. His expertise in integrating the two ensures a seamless and efficient platform, making him an invaluable part of our project.",
+      linkedin: "https://www.linkedin.com/in/aditya-swain-1b5a31226/",
+      instagram: "https://www.instagram.com/aditya.prakash.swain/"
+      
     },
     {
       name: "Niranjan Singh",
-      image: "/Niranjan.jpg",
-      description: "Jane is a UX/UI designer, creating user-friendly designs and experiences."
+      image: "/rinku.jpg",
+      description: "Niranjan Singh spearheaded our frontend development efforts, crafting responsive and visually engaging interfaces that ensure an excellent user experience across all devices.",
+      linkedin: "https://www.linkedin.com/in/niranjan-singh-359587315/",
+      instagram: "https://www.instagram.com/niranjansingh__3112/"
     },
     {
       name: "Amisha Sinha",
       image: "/amisha.jpg",
-      description: "Alice is a product manager, ensuring the smooth delivery of our projects."
+      description: "Amisha Sinha played a vital role in integrating the frontend with the backend, ensuring seamless communication between both ends. While she contributed to frontend development, her focus was primarily on bridging the gap between design and functionality.",
+      instagram: "https://www.instagram.com/th_amisshaaa/",
+      linkedin: "https://www.linkedin.com/in/amisha-sinha-425336235"
     },
     {
       name: "Anuj Pratap Singh",
-      image: "https://via.placeholder.com/150",
-      description: "Bob is a backend developer, specializing in databases and server-side logic."
+      image: "/anuj.jpg",
+      description: "Anuj Pratap Singh supports our backend development efforts by ensuring seamless integration and smooth functioning of critical server-side operations. His collaborative approach strengthens the core of our platform.",
+      instagram: "https://www.instagram.com/anuj__lancelot/",
+      linkedin: "https://www.linkedin.com/in/anuj-pratap-singh-9a063b269/"
     },
     {
       name: "Kanhaiya Mahato",
       image: "/Kanha.jpg",
-      description: "Emma is a marketing expert, driving strategies to expand our brand presence."
+      description: "Kanhaiya Mahato excels in designing captivating user interfaces and managing detailed project reports, ensuring a seamless balance between aesthetics and project organization.",
+      instagram: "https://www.instagram.com/kanha_253/",
+      linkedin: "http://linkedin.com/in/kanha253"
     },
     {
       name: "Fabiha Makhdoomi",
-      image: "https://via.placeholder.com/150",
-      description: "Mike is a frontend developer, creating engaging and responsive user interfaces."
+      image: "/fabiha.jpg",
+      description: "Pz Fabiha Akmal Makhdoomi ensures efficient version control, smooth deployment processes, and robust CI/CD pipelines, laying the groundwork for our platform's continuous delivery and success.",
+      instagram: "https://www.instagram.com/fabssssx/",
+      linkedin: "https://www.linkedin.com/in/fabihamakhdoomi/"
     }
   ];
 
@@ -49,6 +63,24 @@ function AboutPage() {
             <img src={member.image} alt={member.name} className="team-member-image" />
             <h3 className="team-member-name">{member.name}</h3>
             <p className="team-member-description">{member.description}</p>
+            <div className="social-links mt-4 flex justify-center space-x-4">
+              <a 
+                href={member.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-600 transition-colors duration-300"
+              >
+                <FaLinkedin className="w-6 h-6" />
+              </a>
+              <a 
+                href={member.instagram} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-pink-500 hover:text-pink-600 transition-colors duration-300"
+              >
+                <FaInstagram className="w-6 h-6" />
+              </a>
+            </div>
           </div>
         ))}
       </div>

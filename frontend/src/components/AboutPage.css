@@ -107,3 +107,37 @@ body {
     }
   }
   
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* LinkedIn specific styles */
+  .social-links a:first-child {
+    background: rgba(0, 119, 181, 0.1);
+  }
+  
+  /* Instagram specific styles */
+  .social-links a:last-child {
+    background: rgba(225, 48, 108, 0.1);
+  }
+  
