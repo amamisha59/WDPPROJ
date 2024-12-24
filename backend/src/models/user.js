@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: { unique: true }
-
     },
     email: {
         type: String,
@@ -16,7 +15,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role:{
+    role: {
         type: String,
         enum: ['Buyer', 'Seller'],
         required: true,
@@ -29,7 +28,12 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'House',
     }],
-});
+},
+    {
+        timestamps: true,
+
+    }
+);
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

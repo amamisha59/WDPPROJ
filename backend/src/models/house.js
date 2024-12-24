@@ -29,7 +29,10 @@ const houseSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-
+    createdAt: {
+        type: String,
+        required: true,
+    },
 },
     {
         timestamps: true,

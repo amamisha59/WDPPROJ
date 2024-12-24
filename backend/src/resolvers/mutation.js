@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError, ForbiddenError } = require('apollo-server-express');
-const mongoose = require('mongoose');
 require('dotenv').config()
 
 module.exports = {
@@ -18,7 +17,12 @@ module.exports = {
                 location: args.location,
                 houseType: args.houseType,
                 images: args.images || "",
-                owner: user.id
+                owner: user.id,
+                createdAt: new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }),
             });
             await models.User.findByIdAndUpdate(
                 user.id,
@@ -38,10 +42,11 @@ module.exports = {
         if (!user) {
             throw new AuthenticationError('You must be signed in to delete a note');
         }
-        console.log("done1")
         const house = await models.House.findById(houseId);
+        if (!house) {
+            throw new Error("House not found");
+        }
 
-        console.log("done2")
         if (house && String(house.owner) !== user.id) {
             throw new ForbiddenError("You don't have permissions to delete the note");
         }
@@ -65,6 +70,10 @@ module.exports = {
         if (existingUser) {
             throw new Error("User with this email already exists.");
         }
+        const existingUserName = await models.User.findOne({ username });
+        if (existingUserName) {
+            throw new Error("User with this username already exists.");
+        }
         email = email.trim().toLowerCase()
 
         const hashed = await bcrypt.hash(password, 10);
@@ -82,7 +91,7 @@ module.exports = {
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET,);
 
             //returns user info along with token
-            return { username: user.username, email: user.email, role: user.role, id: user._id, token: token};
+            return { username: user.username, email: user.email, role: user.role, id: user._id, token: token };
         } catch (err) {
             // if there's a problem creating the account, throw an error
             throw new Error(err);
@@ -130,7 +139,7 @@ module.exports = {
             const booking = new models.Booking({
                 house: houseId,
                 user: user.id,
-                bookingDate: new Date(),
+                bookingDate: new Date().toDateString(),
                 status: 'confirmed'
             });
 

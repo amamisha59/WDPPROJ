@@ -132,10 +132,10 @@ function LoginPage() {
           </form>
 
           {loading && <p>Loading...</p>}
-          {error && <p>Error: {error.message}</p>}
+          {error && <p className='text-red-500 font-bold text-center'> {error.message}</p>}
 
           <p className="text-center text-gray-200">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <button
               onClick={() => navigate('/register')}
               className="text-blue-400 hover:text-blue-300 font-semibold"

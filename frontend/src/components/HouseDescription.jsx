@@ -120,7 +120,7 @@ function HouseDescription() {
             <span className="info-badge">{house.location}</span>
             <span className="info-badge">
               Listed on:{" "}
-              {new Date(parseInt(house.createdAt)).toLocaleDateString()}
+              {new Date(house.createdAt).toLocaleDateString()}
             </span>
           </div>
 
@@ -202,23 +202,3 @@ function HouseDescription() {
 
 export default HouseDescription;
 
-// Add these animations to your global CSS or tailwind.config.js
-const styles = `
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  .animate-slideUp {
-    animation: slideUp 0.5s ease-out;
-  }
-`;
