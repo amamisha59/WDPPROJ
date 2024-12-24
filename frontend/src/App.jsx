@@ -18,6 +18,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import SoldHouse from "./components/SoldHouse";
 import { useState, useEffect } from "react";
+import Footer from "./components/Footer";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4001/api",
@@ -91,6 +92,7 @@ function App() {
           <Route path="/sold-houses" element={<SoldHouse />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </ApolloProvider>
   );

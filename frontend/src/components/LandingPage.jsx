@@ -25,11 +25,11 @@ const navigate = useNavigate();
       <div className="relative z-40 min-h-screen flex items-center justify-center">
         <div className="max-w-md w-full mx-4 bg-black/50 backdrop-blur-xl rounded-2xl shadow-2xl p-8 space-y-8">
           <div className="text-center space-y-2">
-            <h1 className="text-4xl font-bold text-white drop-shadow-lg">
-              Welcome to Our Platform
+            <h1 className="text-4xl font-bold text-white drop-shadow-lg bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
+              Welcome to Our HomeHunt
             </h1>
             <p className="text-gray-200 text-lg drop-shadow-md">
-              Discover amazing products and connect with sellers worldwide. 
+              Discover amazing houses and connect with sellers worldwide. 
               Join our community today and start your journey!
             </p>
           </div>

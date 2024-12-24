@@ -335,7 +335,7 @@ function AddHouse() {
                         </label>
                         <p className="pl-1 text-gray-300">or drag and drop</p>
                       </div>
-                      <p className="text-xs text-gray-400 mt-2">PNG, JPG, GIF up to 10MB</p>
+                      <p className="text-xs text-gray-400 mt-2">PNG, JPG, GIF up to 100KB</p>
                     </div>
                   </div>
                 </div>
