@@ -145,7 +145,7 @@ function BuyerDashBoard() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"
           >
             <div>
-              <label className="filter-label block text-sm font-medium">
+              <label className="block text-sm font-medium text-white mb-2">
                 Min Price
               </label>
               <input
@@ -153,12 +153,14 @@ function BuyerDashBoard() {
                 name="minPrice"
                 value={filterData.minPrice}
                 onChange={handleFilterChange}
-                className="filter-input mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md 
+                         shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 
+                         text-white placeholder-gray-400"
                 placeholder="Min Price"
               />
             </div>
             <div>
-              <label className="filter-label block text-sm font-medium">
+              <label className="block text-sm font-medium text-white mb-2">
                 Max Price
               </label>
               <input
@@ -166,29 +168,33 @@ function BuyerDashBoard() {
                 name="maxPrice"
                 value={filterData.maxPrice}
                 onChange={handleFilterChange}
-                className="filter-input mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md 
+                         shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 
+                         text-white placeholder-gray-400"
                 placeholder="Max Price"
               />
             </div>
             <div>
-              <label className="filter-label block text-sm font-medium">
+              <label className="block text-sm font-medium text-white mb-2">
                 House Type
               </label>
               <select
                 name="houseType"
                 value={filterData.houseType}
                 onChange={handleFilterChange}
-                className="filter-input mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-white/20 rounded-md 
+                         shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 
+                         text-white"
               >
-                <option value="">All Types</option>
-                <option value="Villa">Villa</option>
-                <option value="Apartment">Apartment</option>
-                <option value="House">House</option>
-                <option value="Condo">Condo</option>
+                <option value="" className="bg-gray-700">All Types</option>
+                <option value="Villa" className="bg-gray-700">Villa</option>
+                <option value="Apartment" className="bg-gray-700">Apartment</option>
+                <option value="House" className="bg-gray-700">House</option>
+                <option value="Condo" className="bg-gray-700">Condo</option>
               </select>
             </div>
             <div>
-              <label className="filter-label block text-sm font-medium">
+              <label className="block text-sm font-medium text-white mb-2">
                 Location
               </label>
               <input
@@ -196,18 +202,25 @@ function BuyerDashBoard() {
                 name="location"
                 value={filterData.location}
                 onChange={handleFilterChange}
-                className="filter-input mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md 
+                         shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 
+                         text-white placeholder-gray-400"
                 placeholder="Location"
               />
             </div>
             <div className="flex items-end gap-2">
-              <button type="submit" className="dashboard-btn flex-1">
+              <button 
+                type="submit" 
+                className="dashboard-btn bg-emerald-500/90 hover:bg-emerald-600 transform hover:-translate-y-0.5 
+                         transition-all duration-200 shadow-md hover:shadow-lg drop-shadow-md flex-1"
+              >
                 Search
               </button>
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="dashboard-btn"
+                className="dashboard-btn bg-gray-500/90 hover:bg-gray-600 transform hover:-translate-y-0.5 
+                         transition-all duration-200 shadow-md hover:shadow-lg drop-shadow-md"
               >
                 Clear
               </button>
@@ -218,20 +231,19 @@ function BuyerDashBoard() {
             activeFilters.priceRange ||
             activeFilters.houseType) && (
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="text-sm text-gray-300">Active Filters:</span>
+              <span className="text-sm text-white font-medium">Active Filters:</span>
               {activeFilters.location && (
-                <span className="active-filter-badge px-2 py-1 rounded-full text-sm">
+                <span className="px-2 py-1 rounded-full text-sm bg-blue-500/20 text-blue-200 border border-blue-400/30">
                   Location: {activeFilters.location}
                 </span>
               )}
               {activeFilters.priceRange && (
-                <span className="active-filter-badge px-2 py-1 rounded-full text-sm">
-                  Price: ${activeFilters.priceRange[0]} - $
-                  {activeFilters.priceRange[1]}
+                <span className="px-2 py-1 rounded-full text-sm bg-green-500/20 text-green-200 border border-green-400/30">
+                  Price: ${activeFilters.priceRange[0]} - ${activeFilters.priceRange[1]}
                 </span>
               )}
               {activeFilters.houseType && (
-                <span className="active-filter-badge px-2 py-1 rounded-full text-sm">
+                <span className="px-2 py-1 rounded-full text-sm bg-purple-500/20 text-purple-200 border border-purple-400/30">
                   Type: {activeFilters.houseType}
                 </span>
               )}
