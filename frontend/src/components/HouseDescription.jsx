@@ -23,13 +23,15 @@ function HouseDescription() {
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [bookingError, setBookingError] = useState("");
   const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false); // For confirmation popup
+  const [isConfirmationPopupVisible, setIsConfirmationPopupVisible] = useState(false);
 
   const [bookHouse] = useMutation(BOOK_HOUSE_MUTATION, {
     onCompleted: () => {
       setTimeout(() => {
         setShowLoadingOverlay(false);
-        alert("Property booked successfully!");
-        navigate("/user-listings");
+        setIsPopupVisible(false); // Close the confirmation popup
+        setIsConfirmationPopupVisible(true); // Show confirmation success popup
       }, 3000);
     },
     onError: (error) => {
@@ -38,20 +40,31 @@ function HouseDescription() {
     },
   });
 
-  const handleBooking = async () => {
-    if (window.confirm("Are you sure you want to book this property?")) {
-      try {
-        setShowLoadingOverlay(true);
-        await bookHouse({
-          variables: {
-            houseId: house.id,
-          },
-        });
-      } catch (err) {
-        setShowLoadingOverlay(false);
-        console.error("Booking error:", err);
-      }
+  // Function to trigger the booking confirmation popup
+  const openBookingConfirmationPopup = () => {
+    setIsPopupVisible(true);
+  };
+
+  // Function to confirm the booking
+  const handleBookingConfirmation = async () => {
+    setShowLoadingOverlay(true);
+    setIsPopupVisible(false); // Close the confirmation popup
+    try {
+      await bookHouse({
+        variables: {
+          houseId: house.id,
+        },
+      });
+    } catch (err) {
+      setShowLoadingOverlay(false);
+      console.error("Booking error:", err);
     }
+  };
+
+  // Function to close the confirmation success popup
+  const closeConfirmationPopup = () => {
+    setIsConfirmationPopupVisible(false);
+    navigate("/user-listings");
   };
 
   if (!house) {
@@ -152,13 +165,13 @@ function HouseDescription() {
           {/* Action Buttons */}
           <div className="mt-8 flex gap-4">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => navigate("/buyer-dashboard")}
               className="action-button flex-1"
             >
               Go Back
             </button>
             <button
-              onClick={handleBooking}
+              onClick={openBookingConfirmationPopup} // Open confirmation popup
               disabled={showLoadingOverlay}
               className={`action-button book-button flex-1 ${
                 showLoadingOverlay ? "disabled" : ""
@@ -195,10 +208,48 @@ function HouseDescription() {
         </div>
       </div>
 
+      {/* Confirmation Popup */}
+      {isPopupVisible && (
+        <div className="popup-overlay active">
+          <div className="popup-content">
+            <h2>Confirm Booking</h2>
+            <p>Are you sure you want to book this property?</p>
+            <div className="popup-buttons">
+              <button
+                className="confirm-button"
+                onClick={handleBookingConfirmation} // Confirm booking
+              >
+                Yes, Book
+              </button>
+              <button className="cancel-button" onClick={() => setIsPopupVisible(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Booking Confirmation Success Popup */}
+      {isConfirmationPopupVisible && (
+        <div className="popup-overlay active">
+          <div className="popup-content">
+            <h2>Booking Confirmed!</h2>
+            <p>Your booking for the property <strong>{house.title}</strong> has been successfully confirmed.</p>
+            <div className="popup-buttons">
+              <button
+                className="confirm-button"
+                onClick={closeConfirmationPopup} // Close and go to listings
+              >
+                Go to Listings
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {bookingError && <div className="error-message">{bookingError}</div>}
     </div>
   );
 }
 
 export default HouseDescription;
-
