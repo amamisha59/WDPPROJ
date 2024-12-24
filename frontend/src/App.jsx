@@ -8,24 +8,30 @@ import BuyerDashBoard from "./components/BuyerDashBoard";
 import AddHouse from "./components/AddHouse";
 import UserListings from "./components/UserListings";
 import HouseDescription from "./components/HouseDescription";
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import SoldHouse from './components/SoldHouse';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import SoldHouse from "./components/SoldHouse";
+import { useState, useEffect } from "react";
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4001/api'
+  uri: "http://localhost:4001/api",
 });
 
 const authLink = setContext((_, { headers }) => {
   // Get the authentication token from local storage
-  const token = localStorage.getItem('userToken');
-  
+  const token = localStorage.getItem("userToken");
+
   // Return the headers to the context
   return {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : "",
-    }
+    },
   };
 });
 
@@ -34,15 +40,41 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: 'network-only'
+      fetchPolicy: "network-only",
     },
     query: {
-      fetchPolicy: 'network-only'
-    }
-  }
+      fetchPolicy: "network-only",
+    },
+  },
 });
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Set a timeout for 3 seconds
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <div className="spinner">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ApolloProvider client={client}>
       <BrowserRouter>
