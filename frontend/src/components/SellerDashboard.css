@@ -1,0 +1,222 @@
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  gap: 2px;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.button:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+  gap: 0;
+}
+
+.bin-top {
+  transform-origin: bottom right;
+}
+
+.button:hover .bin-top {
+  transition-duration: 0.5s;
+  transform: rotate(160deg);
+}
+
+/* Gradient background */
+.dashboard-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  min-height: 100vh;
+  color: white;
+}
+
+/* Header styling */
+.dashboard-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  max-width: 7xl;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-left: auto;
+  padding-right: 2rem;
+}
+
+/* Card animations and styling */
+.house-card {
+  --background: linear-gradient(to right, #74ebd5 0%, #acb6e5 100%);
+  padding: 5px;
+  border-radius: 1rem;
+  overflow: visible;
+  background: var(--background);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.house-card::before,
+.house-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.house-card::before {
+  background: linear-gradient(to bottom right, #f6d365 0%, #fda085 100%);
+  transform: rotate(2deg);
+}
+
+.house-card::after {
+  background: linear-gradient(to top right, #84fab0 0%, #8fd3f4 100%);
+  transform: rotate(-2deg);
+}
+
+.house-card-content {
+  background: #292b2c;
+  color: #ffffff;
+  border-radius: 0.7rem;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.house-card:hover::before,
+.house-card:hover::after {
+  opacity: 0;
+}
+
+.house-card:hover .house-card-content {
+  transform: translateY(-5px);
+}
+
+/* Text colors */
+.card-title {
+  color: #e7e5e5e8;
+}
+
+.card-description {
+  color: #e7e5e5e8;
+}
+
+.card-price {
+  color: #e7e5e5e8;
+}
+
+.card-location {
+  color: #9ca3af;
+}
+
+/* House type badge */
+.house-type-badge {
+  background: rgba(58, 58, 59, 0.2);
+  color: #d6e4e8;
+  border: 1px solid rgba(222, 226, 231, 0.3);
+}
+
+/* Loading animation */
+.loading-spinner {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-right-color: #ffffff;
+}
+
+/* Dashboard action buttons */
+.dashboard-btn {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background: linear-gradient(45deg, 
+     #ff7300, #fffb00, 
+      #7a00ff);
+  background-size: 400%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  z-index: -1;
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+  border-radius: 0.5rem;
+}
+
+.dashboard-btn:hover::before {
+  opacity: 1;
+}
+
+.dashboard-btn:active {
+  transform: scale(0.98);
+}
+
+/* Add House button specific */
+.btn-add {
+  background: rgba(242, 175, 7, 0.902);
+}
+
+/* Sold Houses button specific */
+.btn-sold {
+  background: rgba(242, 175, 7, 0.902);
+}
+
+/* Logout button specific */
+.btn-logout {
+  background: rgba(242, 175, 7, 0.902);
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+} 
