@@ -22,23 +22,33 @@ function HouseDescription() {
   const { state: house } = useLocation();
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [bookingError, setBookingError] = useState("");
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false); // For confirmation popup
   const [isConfirmationPopupVisible, setIsConfirmationPopupVisible] = useState(false);
 
-  const [bookHouse, { loading: bookingLoading }] = useMutation(
-    BOOK_HOUSE_MUTATION,
-    {
-      onCompleted: () => {
-        setIsPopupVisible(false);
-        setIsConfirmationPopupVisible(true); // Show confirmation popup
-      },
-      onError: (error) => {
-        setBookingError(error.message);
-      },
-    }
-  );
+  const [bookHouse] = useMutation(BOOK_HOUSE_MUTATION, {
+    onCompleted: () => {
+      setTimeout(() => {
+        setShowLoadingOverlay(false);
+        setIsPopupVisible(false); // Close the confirmation popup
+        setIsConfirmationPopupVisible(true); // Show confirmation success popup
+      }, 3000);
+    },
+    onError: (error) => {
+      setShowLoadingOverlay(false);
+      setBookingError(error.message);
+    },
+  });
 
-  const handleBooking = async () => {
+  // Function to trigger the booking confirmation popup
+  const openBookingConfirmationPopup = () => {
+    setIsPopupVisible(true);
+  };
+
+  // Function to confirm the booking
+  const handleBookingConfirmation = async () => {
+    setShowLoadingOverlay(true);
+    setIsPopupVisible(false); // Close the confirmation popup
     try {
       await bookHouse({
         variables: {
@@ -46,12 +56,12 @@ function HouseDescription() {
         },
       });
     } catch (err) {
+      setShowLoadingOverlay(false);
       console.error("Booking error:", err);
     }
   };
 
-  const openPopup = () => setIsPopupVisible(true);
-  const closePopup = () => setIsPopupVisible(false);
+  // Function to close the confirmation success popup
   const closeConfirmationPopup = () => {
     setIsConfirmationPopupVisible(false);
     navigate("/user-listings");
@@ -161,8 +171,8 @@ function HouseDescription() {
               Go Back
             </button>
             <button
-              onClick={openPopup}
-              disabled={bookingLoading}
+              onClick={openBookingConfirmationPopup} // Open confirmation popup
+              disabled={showLoadingOverlay}
               className={`action-button book-button flex-1 ${
                 showLoadingOverlay ? "disabled" : ""
               }`}
@@ -198,17 +208,20 @@ function HouseDescription() {
         </div>
       </div>
 
-      {/* Popup */}
+      {/* Confirmation Popup */}
       {isPopupVisible && (
         <div className="popup-overlay active">
           <div className="popup-content">
             <h2>Confirm Booking</h2>
             <p>Are you sure you want to book this property?</p>
             <div className="popup-buttons">
-              <button className="confirm-button" onClick={handleBooking}>
+              <button
+                className="confirm-button"
+                onClick={handleBookingConfirmation} // Confirm booking
+              >
                 Yes, Book
               </button>
-              <button className="cancel-button" onClick={closePopup}>
+              <button className="cancel-button" onClick={() => setIsPopupVisible(false)}>
                 Cancel
               </button>
             </div>
@@ -216,7 +229,7 @@ function HouseDescription() {
         </div>
       )}
 
-      {/* Confirmation Popup */}
+      {/* Booking Confirmation Success Popup */}
       {isConfirmationPopupVisible && (
         <div className="popup-overlay active">
           <div className="popup-content">
@@ -225,7 +238,7 @@ function HouseDescription() {
             <div className="popup-buttons">
               <button
                 className="confirm-button"
-                onClick={closeConfirmationPopup}
+                onClick={closeConfirmationPopup} // Close and go to listings
               >
                 Go to Listings
               </button>

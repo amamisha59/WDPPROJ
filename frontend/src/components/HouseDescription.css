@@ -1,53 +1,47 @@
 /* Main container styling */
 .description-container {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  min-height: 100vh;
-  padding: 2rem;
-  color: #e4e4e4; /* Softer white for readability */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Card styling */
-.description-card {
-  background: rgba(255, 255, 255, 0.07); /* Slightly lighter background */
-  backdrop-filter: blur(12px); /* Slightly stronger blur for a frosted effect */
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Softer border */
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 900px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.description-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Added hover shadow for depth */
-}
-
-/* Image container */
-.image-container {
-  position: relative;
-  height: 25rem; /* Slightly taller for better presentation */
-  overflow: hidden;
-}
-
-.house-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: all 0.5s ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.house-image:hover {
-  transform: scale(1.05);
-}
-
-/* Back button styling */
-/* Back button styling */
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    min-height: 100vh;
+    padding: 2rem;
+    color: rgb(236, 236, 236);
+  }
+  
+  /* Card styling */
+  .description-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    max-width: 4xl;
+    margin: 0 auto;
+  }
+  
+  .description-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Image container */
+  .image-container {
+    position: relative;
+    height: 24rem;
+    overflow: hidden;
+  }
+  
+  .house-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s ease;
+  }
+  
+  .house-image:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Back button styling */
+  /* Back button styling */
 .back-button {
   position: absolute;
   top: 1rem;
@@ -234,113 +228,93 @@
   background: #dc2626;
 }
 
-
-/* Content styling */
-.content-section {
-  padding: 2rem;
-}
-
-.content-section h1 {
-  color: #ffffff; /* Brightened text for headings */
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
-}
-
-.content-section span {
-  color: #7dd3fc; /* Slightly lighter badge color for emphasis */
-}
-
-/* Badge styling */
-.info-badge {
-  background: rgba(59, 59, 59, 0.3);
-  color: #a5f3fc; /* Brighter badge text */
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  margin: 0.25rem; /* Spacing between badges */
-}
-
-/* Details card styling */
-.details-card {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  color: #d1d5db; /* Softer text color */
-}
-
-/* Action buttons */
-.action-button {
-  position: relative;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  color: #ffffff;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.action-button::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  background: linear-gradient(45deg, #ff7300, #fffb00, #7a00ff);
-  background-size: 400%;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  z-index: -1;
-  animation: glowing 15s linear infinite; /* Faster glow animation */
-  opacity: 0;
-  transition: opacity .3s ease-in-out;
-  border-radius: 0.5rem;
-}
-
-.action-button:hover::before {
-  opacity: 1;
-}
-
-.book-button {
-  background: #38bdf8; /* Primary color for booking */
-  color: #fff;
-}
-
-.book-button:hover {
-  background: #0284c7; /* Darker blue on hover */
-}
-
-.book-button:disabled {
-  background: rgba(156, 163, 175, 0.2);
-  cursor: not-allowed;
-  color: #e5e7eb; /* Grayed-out text */
-}
-
-/* Error message styling */
-.error-message {
-  background: rgba(239, 68, 68, 0.3);
-  border: 1px solid rgba(239, 68, 68, 0.5);
-  color: #fee2e2;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-top: 1rem;
-  text-align: center;
-}
-
-/* Glowing animation */
-@keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
-}
-
+  
+  
+  /* Content styling */
+  .content-section {
+    padding: 2rem;
+  }
+  
+  /* Badge styling */
+  .info-badge {
+    background: rgba(87, 90, 96, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+  }
+  
+  /* Details card styling */
+  .details-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+  
+  /* Action buttons */
+  .action-button {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .action-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: linear-gradient(45deg, #ff7300, #fffb00, #7a00ff);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 0.5rem;
+  }
+  
+  .action-button:hover::before {
+    opacity: 1;
+  }
+  
+  .book-button {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .book-button:disabled {
+    background: rgba(156, 163, 175, 0.2);
+    cursor: not-allowed;
+  }
+  
+  @keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+  }
+  
+  /* Error message styling */
+  .error-message {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
   
   /* Loading overlay */
   .loading-overlay {
