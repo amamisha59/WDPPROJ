@@ -121,7 +121,7 @@ function BuyerDashBoard() {
       <header className="dashboard-header">
         <div className="header-content">
           <h1 className="text-3xl font-bold text-yellow-500">
-            Buyer Dashboard
+            BuySphere
           </h1>
           <div className="buttons-container">
             <button

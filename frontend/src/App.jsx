@@ -8,6 +8,7 @@ import BuyerDashBoard from "./components/BuyerDashBoard";
 import AddHouse from "./components/AddHouse";
 import UserListings from "./components/UserListings";
 import HouseDescription from "./components/HouseDescription";
+import AboutPage from "./components/AboutPage";
 import {
   ApolloClient,
   ApolloProvider,
@@ -88,6 +89,7 @@ function App() {
           <Route path="/user-listings" element={<UserListings />} />
           <Route path="/house-description" element={<HouseDescription />} />
           <Route path="/sold-houses" element={<SoldHouse />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </BrowserRouter>
     </ApolloProvider>

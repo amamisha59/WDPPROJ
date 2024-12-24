@@ -39,6 +39,9 @@ function SellerDashBoard() {
     },
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [houseToDelete, setHouseToDelete] = useState(null); // State to store houseId to delete
+
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userRole");
@@ -46,16 +49,25 @@ function SellerDashBoard() {
     navigate("/");
   };
 
-  const handleDelete = async (houseId) => {
-    if (window.confirm("Are you sure you want to delete this property?")) {
-      try {
-        await deleteHouse({
-          variables: { houseId },
-        });
-      } catch (err) {
-        console.error("Error deleting house:", err);
-      }
+  const handleDelete = (houseId) => {
+    setHouseToDelete(houseId); // Set the houseId to delete
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deleteHouse({
+        variables: { houseId: houseToDelete },
+      });
+      setIsModalOpen(false); // Close the modal after deletion
+    } catch (err) {
+      console.error("Error deleting house:", err);
+      setIsModalOpen(false); // Close the modal on error
     }
+  };
+
+  const cancelDelete = () => {
+    setIsModalOpen(false); // Close the modal if cancel
   };
 
   if (loading)
@@ -77,7 +89,7 @@ function SellerDashBoard() {
       <header className="dashboard-header">
         <div className="header-content">
           <h1 className="text-3xl font-bold text-yellow-500">
-            Seller Dashboard
+            SellSphere
           </h1>
           <div className="buttons-container">
             <button
@@ -203,6 +215,23 @@ function SellerDashBoard() {
           </div>
         )}
       </main>
+
+      {/* Confirmation Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2 className="modal-title">Are you sure you want to delete this property?</h2>
+            <div className="modal-actions">
+              <button onClick={confirmDelete} className="btn-confirm">
+                Yes, Delete
+              </button>
+              <button onClick={cancelDelete} className="btn-cancel">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

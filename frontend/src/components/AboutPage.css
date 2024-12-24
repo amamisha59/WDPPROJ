@@ -1,0 +1,109 @@
+/* Global Styles */
+body {
+    background-color: #121212; /* Dark background */
+    color: white; /* Light text */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* About Page Container */
+  .about-container {
+    padding: 50px 20px;
+    background: linear-gradient(135deg, rgba(28, 28, 28, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%);
+    min-height: 100vh;
+    text-align: center;
+    color: white;
+  }
+  
+  /* Heading Styles */
+  .about-heading {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6);
+    color: #f1f1f1;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  /* Team Cards Container */
+  .team-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  /* Individual Team Card */
+  .team-card {
+    background: linear-gradient(135deg, rgba(48, 48, 48, 0.8) 0%, rgba(60, 60, 60, 0.8) 100%);
+    padding: 20px;
+    border-radius: 20px;
+    width: 250px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Hover Effects for Team Cards */
+  .team-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg, rgba(60, 60, 60, 0.8) 0%, rgba(48, 48, 48, 0.8) 100%);
+  }
+  
+  /* Team Member Image */
+  .team-member-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    object-fit: cover;
+    border: 4px solid #444;
+    transition: transform 0.3s, filter 0.3s;
+  }
+  
+  .team-card:hover .team-member-image {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+  
+  /* Team Member Name */
+  .team-member-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #f1f1f1;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
+  }
+  
+  /* Team Member Description */
+  .team-member-description {
+    font-size: 1rem;
+    color: #ddd;
+    line-height: 1.6;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
+  }
+  
+  /* Add a gradient background on hover for the card */
+  .team-card:hover .team-member-description {
+    color: #ddd;
+    text-decoration: underline;
+  }
+  
+  /* Responsive Styles for Small Screens */
+  @media (max-width: 768px) {
+    .team-cards-container {
+      gap: 20px;
+    }
+  
+    .team-card {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+  

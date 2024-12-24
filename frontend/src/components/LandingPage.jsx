@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-
+import "./LandingPage.css";
 function LandingPage() {
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -54,6 +54,14 @@ function LandingPage() {
           </div>
         </div>
       </div>
+
+      {/* Transparent About Button */}
+      <button
+        onClick={() => navigate('/about')}
+        className="absolute top-9 right-4 transform -translate-y-1/2 px-4 py-2 bg-transparent border border-white text-white rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-105 z-[999]"
+      >
+        About
+      </button>
     </div>
   );
 }
