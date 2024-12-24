@@ -22,36 +22,39 @@ function HouseDescription() {
   const { state: house } = useLocation();
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [bookingError, setBookingError] = useState("");
-  const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isConfirmationPopupVisible, setIsConfirmationPopupVisible] = useState(false);
 
-  const [bookHouse] = useMutation(BOOK_HOUSE_MUTATION, {
-    onCompleted: () => {
-      setTimeout(() => {
-        setShowLoadingOverlay(false);
-        alert("Property booked successfully!");
-        navigate("/user-listings");
-      }, 3000);
-    },
-    onError: (error) => {
-      setShowLoadingOverlay(false);
-      setBookingError(error.message);
-    },
-  });
+  const [bookHouse, { loading: bookingLoading }] = useMutation(
+    BOOK_HOUSE_MUTATION,
+    {
+      onCompleted: () => {
+        setIsPopupVisible(false);
+        setIsConfirmationPopupVisible(true); // Show confirmation popup
+      },
+      onError: (error) => {
+        setBookingError(error.message);
+      },
+    }
+  );
 
   const handleBooking = async () => {
-    if (window.confirm("Are you sure you want to book this property?")) {
-      try {
-        setShowLoadingOverlay(true);
-        await bookHouse({
-          variables: {
-            houseId: house.id,
-          },
-        });
-      } catch (err) {
-        setShowLoadingOverlay(false);
-        console.error("Booking error:", err);
-      }
+    try {
+      await bookHouse({
+        variables: {
+          houseId: house.id,
+        },
+      });
+    } catch (err) {
+      console.error("Booking error:", err);
     }
+  };
+
+  const openPopup = () => setIsPopupVisible(true);
+  const closePopup = () => setIsPopupVisible(false);
+  const closeConfirmationPopup = () => {
+    setIsConfirmationPopupVisible(false);
+    navigate("/user-listings");
   };
 
   if (!house) {
@@ -152,14 +155,14 @@ function HouseDescription() {
           {/* Action Buttons */}
           <div className="mt-8 flex gap-4">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => navigate("/buyer-dashboard")}
               className="action-button flex-1"
             >
               Go Back
             </button>
             <button
-              onClick={handleBooking}
-              disabled={showLoadingOverlay}
+              onClick={openPopup}
+              disabled={bookingLoading}
               className={`action-button book-button flex-1 ${
                 showLoadingOverlay ? "disabled" : ""
               }`}
@@ -195,10 +198,45 @@ function HouseDescription() {
         </div>
       </div>
 
+      {/* Popup */}
+      {isPopupVisible && (
+        <div className="popup-overlay active">
+          <div className="popup-content">
+            <h2>Confirm Booking</h2>
+            <p>Are you sure you want to book this property?</p>
+            <div className="popup-buttons">
+              <button className="confirm-button" onClick={handleBooking}>
+                Yes, Book
+              </button>
+              <button className="cancel-button" onClick={closePopup}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Popup */}
+      {isConfirmationPopupVisible && (
+        <div className="popup-overlay active">
+          <div className="popup-content">
+            <h2>Booking Confirmed!</h2>
+            <p>Your booking for the property <strong>{house.title}</strong> has been successfully confirmed.</p>
+            <div className="popup-buttons">
+              <button
+                className="confirm-button"
+                onClick={closeConfirmationPopup}
+              >
+                Go to Listings
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {bookingError && <div className="error-message">{bookingError}</div>}
     </div>
   );
 }
 
 export default HouseDescription;
-
