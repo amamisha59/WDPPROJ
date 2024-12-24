@@ -89,7 +89,7 @@ function SellerDashBoard() {
       <header className="dashboard-header">
         <div className="header-content">
           <h1 className="text-3xl font-bold text-yellow-500">
-            SellSphere
+            Sales Hub
           </h1>
           <div className="buttons-container">
             <button

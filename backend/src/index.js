@@ -4,18 +4,33 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // Local module imports
-const db = require('./db');
+//const db = require('./db');
 const models = require('./models');
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
+const { default: mongoose } = require('mongoose');
 
 const app = express();
 
 // Run the server on a port specified in our .env file or port 4000
-const DB_HOST = process.env.DB_HOST;
+//const DB_HOST = process.env.DB_HOST;
 const port = process.env.PORT || 4000;
 
-db.connect(DB_HOST);
+//db.connect(DB_HOST);
+const url = process.env.URI;
+const connectDB = async () => {
+    try {
+        await mongoose.connect(url, {
+           
+        });
+        console.log('Database is connected');
+    } catch (err) {
+        console.error('Error connecting to the database:', err);
+        process.exit(1);
+    }
+};
+
+connectDB();
 
 // get the user info from a JWT
 const getUser = token => {

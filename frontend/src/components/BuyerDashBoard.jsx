@@ -120,9 +120,7 @@ function BuyerDashBoard() {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="header-content">
-          <h1 className="text-3xl font-bold text-yellow-500">
-            BuySphere
-          </h1>
+          <h1 className="text-3xl font-bold text-yellow-500">Property Board</h1>
           <div className="buttons-container">
             <button
               onClick={() => navigate("/user-listings")}
@@ -186,11 +184,21 @@ function BuyerDashBoard() {
                          shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 
                          text-white"
               >
-                <option value="" className="bg-gray-700">All Types</option>
-                <option value="Villa" className="bg-gray-700">Villa</option>
-                <option value="Apartment" className="bg-gray-700">Apartment</option>
-                <option value="House" className="bg-gray-700">House</option>
-                <option value="Condo" className="bg-gray-700">Condo</option>
+                <option value="" className="bg-gray-700">
+                  All Types
+                </option>
+                <option value="Villa" className="bg-gray-700">
+                  Villa
+                </option>
+                <option value="Apartment" className="bg-gray-700">
+                  Apartment
+                </option>
+                <option value="House" className="bg-gray-700">
+                  House
+                </option>
+                <option value="Condo" className="bg-gray-700">
+                  Condo
+                </option>
               </select>
             </div>
             <div>
@@ -209,8 +217,8 @@ function BuyerDashBoard() {
               />
             </div>
             <div className="flex items-end gap-2">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="dashboard-btn bg-emerald-500/90 hover:bg-emerald-600 transform hover:-translate-y-0.5 
                          transition-all duration-200 shadow-md hover:shadow-lg drop-shadow-md flex-1"
               >
@@ -231,7 +239,9 @@ function BuyerDashBoard() {
             activeFilters.priceRange ||
             activeFilters.houseType) && (
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="text-sm text-white font-medium">Active Filters:</span>
+              <span className="text-sm text-white font-medium">
+                Active Filters:
+              </span>
               {activeFilters.location && (
                 <span className="px-2 py-1 rounded-full text-sm bg-blue-500/20 text-blue-200 border border-blue-400/30">
                   Location: {activeFilters.location}
@@ -239,7 +249,8 @@ function BuyerDashBoard() {
               )}
               {activeFilters.priceRange && (
                 <span className="px-2 py-1 rounded-full text-sm bg-green-500/20 text-green-200 border border-green-400/30">
-                  Price: ${activeFilters.priceRange[0]} - ${activeFilters.priceRange[1]}
+                  Price: ${activeFilters.priceRange[0]} - $
+                  {activeFilters.priceRange[1]}
                 </span>
               )}
               {activeFilters.houseType && (
