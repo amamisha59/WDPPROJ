@@ -63,6 +63,18 @@ function HouseDescription() {
 
   return (
     <div className="description-container">
+      {showLoadingOverlay && (
+        <div className="loading-overlay">
+          <div className="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      )}
+
       <div className="description-card">
         {/* Image Section */}
         <div className="image-container">
@@ -152,10 +164,10 @@ function HouseDescription() {
               onClick={openPopup}
               disabled={bookingLoading}
               className={`action-button book-button flex-1 ${
-                bookingLoading ? "disabled" : ""
+                showLoadingOverlay ? "disabled" : ""
               }`}
             >
-              {bookingLoading ? (
+              {showLoadingOverlay ? (
                 <div className="flex items-center justify-center">
                   <svg
                     className="animate-spin h-5 w-5 mr-3"
