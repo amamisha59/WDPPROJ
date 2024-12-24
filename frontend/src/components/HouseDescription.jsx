@@ -22,29 +22,33 @@ function HouseDescription() {
   const { state: house } = useLocation();
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [bookingError, setBookingError] = useState("");
+  const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
 
-  const [bookHouse, { loading: bookingLoading }] = useMutation(
-    BOOK_HOUSE_MUTATION,
-    {
-      onCompleted: () => {
+  const [bookHouse] = useMutation(BOOK_HOUSE_MUTATION, {
+    onCompleted: () => {
+      setTimeout(() => {
+        setShowLoadingOverlay(false);
         alert("Property booked successfully!");
         navigate("/user-listings");
-      },
-      onError: (error) => {
-        setBookingError(error.message);
-      },
-    }
-  );
+      }, 3000);
+    },
+    onError: (error) => {
+      setShowLoadingOverlay(false);
+      setBookingError(error.message);
+    },
+  });
 
   const handleBooking = async () => {
     if (window.confirm("Are you sure you want to book this property?")) {
       try {
+        setShowLoadingOverlay(true);
         await bookHouse({
           variables: {
             houseId: house.id,
           },
         });
       } catch (err) {
+        setShowLoadingOverlay(false);
         console.error("Booking error:", err);
       }
     }
@@ -56,6 +60,18 @@ function HouseDescription() {
 
   return (
     <div className="description-container">
+      {showLoadingOverlay && (
+        <div className="loading-overlay">
+          <div className="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      )}
+
       <div className="description-card">
         {/* Image Section */}
         <div className="image-container">
@@ -143,12 +159,12 @@ function HouseDescription() {
             </button>
             <button
               onClick={handleBooking}
-              disabled={bookingLoading}
+              disabled={showLoadingOverlay}
               className={`action-button book-button flex-1 ${
-                bookingLoading ? "disabled" : ""
+                showLoadingOverlay ? "disabled" : ""
               }`}
             >
-              {bookingLoading ? (
+              {showLoadingOverlay ? (
                 <div className="flex items-center justify-center">
                   <svg
                     className="animate-spin h-5 w-5 mr-3"
