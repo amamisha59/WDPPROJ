@@ -7,18 +7,18 @@ function AboutPage() {
 
   const teamMembers = [
     {
-      name: "Aditya Swain",
+      name: "Aditya Prakash Swain",
       image: "https://via.placeholder.com/150",
       description: "John is the lead developer, passionate about building scalable applications."
     },
     {
       name: "Niranjan Singh",
-      image: "https://via.placeholder.com/150",
+      image: "/Niranjan.jpg",
       description: "Jane is a UX/UI designer, creating user-friendly designs and experiences."
     },
     {
       name: "Amisha Sinha",
-      image: "https://via.placeholder.com/150",
+      image: "/amisha.jpg",
       description: "Alice is a product manager, ensuring the smooth delivery of our projects."
     },
     {
@@ -27,12 +27,12 @@ function AboutPage() {
       description: "Bob is a backend developer, specializing in databases and server-side logic."
     },
     {
-      name: "Kanhaiya",
-      image: "https://via.placeholder.com/150",
+      name: "Kanhaiya Mahato",
+      image: "/Kanha.jpg",
       description: "Emma is a marketing expert, driving strategies to expand our brand presence."
     },
     {
-      name: "Fabiha",
+      name: "Fabiha Makhdoomi",
       image: "https://via.placeholder.com/150",
       description: "Mike is a frontend developer, creating engaging and responsive user interfaces."
     }
