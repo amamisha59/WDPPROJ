@@ -40,5 +40,4 @@ const houseSchema = new mongoose.Schema({
 );
 
 const House = mongoose.model('House', houseSchema);
-// Export the module
 module.exports = House;

@@ -1,4 +1,5 @@
 module.exports = {
+  //to get the houses as a buyer with filters
   getHouses: async (parent, { location, priceRange, houseType }, { models }) => {
     let query = {};
 
@@ -26,6 +27,7 @@ module.exports = {
 
       console.log('Query with booked houses excluded:', query);
 
+      //to get the houses as a buyer with filters with a limit of 100
       return await models.House.find(query).limit(100);
     } catch (error) {
       console.error('Error in getHouses:', error);
@@ -33,10 +35,12 @@ module.exports = {
     }
   },
 
+  //to get the house details by id
   getHouseById: async (parent, { houseId }, { models }) => {
     return await models.House.findById(houseId);
   },
 
+  //to get the houses as a seller
   getUserListings: async (parent, { userId }, { models }) => {
     try {
       // Get IDs of all booked houses
@@ -53,6 +57,8 @@ module.exports = {
       console.log('Seller listings query:', query);
 
       const houses = await models.House.find(query);
+
+      //to return the array of houses as a seller
       return houses;
     } catch (error) {
       console.error('Error in getUserListings:', error);
@@ -60,6 +66,7 @@ module.exports = {
     }
   },
 
+  //to get the booked houses as a buyer
   getBookedHouses: async (parent, args, { models, user }) => {
     if (!user) {
       throw new AuthenticationError('You are not authorized to view this information');
@@ -67,6 +74,7 @@ module.exports = {
 
     try {
       console.log('User ID:', user.id);
+      //to get the booked houses as a buyer with a status of confirmed
       const bookings = await models.Booking.find({ 
         user: user.id,
         status: 'confirmed'
@@ -85,9 +93,10 @@ module.exports = {
     }
   },
 
+  //to get the sold houses as a seller
   getSoldHouses: async (parent, { userId }, { models }) => {
     try {
-      // Find all confirmed bookings for houses owned by this seller
+      // Find all confirmed bookings for houses owned by this seller with a status of confirmed
       const bookings = await models.Booking.find({
         status: 'confirmed'
       })

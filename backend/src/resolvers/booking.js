@@ -1,9 +1,8 @@
 module.exports = {
   Booking: {
-    house: async (booking, args, { models }) => {
+    house: async (booking, args, { models }) => {//to get the house details from the booking
       try {
-        // console.log('Booking object:', booking);
-        // console.log('House ID:', booking.house);
+       
 
         if (!booking.house) {
           throw new Error('No house ID found in booking');
@@ -22,7 +21,7 @@ module.exports = {
         throw new Error(`Error fetching house details: ${error.message}`);
       }
     },
-    user: async (booking, args, { models }) => {
+    user: async (booking, args, { models }) => {//to get the user details from the booking
       try {
         if (!booking.user) {
           throw new Error('No user ID found in booking');

@@ -4,13 +4,13 @@ const { AuthenticationError, ForbiddenError } = require('apollo-server-express')
 require('dotenv').config()
 
 module.exports = {
-    addHouse: async (parent, args, { models, user }) => {
+    addHouse: async (parent, args, { models, user }) => {//to add a house as a seller
         if (!user) {
             throw new AuthenticationError('You must be signed in to add a house');
         }
 
         try {
-            const newHouse = await models.House.create({
+            const newHouse = await models.House.create({//to create a new house
                 title: args.title,
                 description: args.description || "",
                 price: args.price,
@@ -37,7 +37,7 @@ module.exports = {
         }
     },
 
-    deleteHouse: async (parent, { houseId }, { models, user }) => {
+    deleteHouse: async (parent, { houseId }, { models, user }) => {//to delete a house as a seller
 
         if (!user) {
             throw new AuthenticationError('You must be signed in to delete a note');
@@ -65,7 +65,7 @@ module.exports = {
         }
     },
 
-    register: async (parent, { username, email, password, role }, { models }) => {
+    register: async (parent, { username, email, password, role }, { models }) => {//to register a new user as a buyer or seller
         const existingUser = await models.User.findOne({ email });
         if (existingUser) {
             throw new Error("User with this email already exists.");
@@ -80,7 +80,7 @@ module.exports = {
 
         try {
             //user is created
-            const user = await models.User.create({
+            const user = await models.User.create({//to create a new user
                 username,
                 email,
                 password: hashed,
@@ -88,10 +88,10 @@ module.exports = {
             });
 
             // create and return the json web token
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET,);
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET,);//to create a token for the user
 
             //returns user info along with token
-            return { username: user.username, email: user.email, role: user.role, id: user._id, token: token };
+            return { username: user.username, email: user.email, role: user.role, id: user._id, token: token };//to return the user info along with the token
         } catch (err) {
             // if there's a problem creating the account, throw an error
             throw new Error(err);
@@ -107,13 +107,13 @@ module.exports = {
             throw new AuthenticationError('User not found');
         }
 
-        const isValidPassword = await bcrypt.compare(password, user.password);
+        const isValidPassword = await bcrypt.compare(password, user.password);//to check if the password is correct
         if (!isValidPassword) {
             throw new AuthenticationError('Invalid Password');
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        return { ...user._doc, id: user._id, token, };
+        return { ...user._doc, id: user._id, token, };//to return the user info along with the token
 
     },
 
