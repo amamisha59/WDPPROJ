@@ -294,7 +294,7 @@ function BuyerDashBoard() {
                   </p>
                   <div className="mt-4 flex justify-between items-center">
                     <span className="text-2xl font-bold text-gray-300">
-                      ${house.price.toLocaleString()}
+                     ₹{house.price.toLocaleString()}
                     </span>
                     <span className="text-gray-100">{house.location}</span>
                   </div>
