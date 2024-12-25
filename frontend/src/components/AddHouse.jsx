@@ -121,7 +121,7 @@ function AddHouse() {
           title: formData.title,
           description: formData.description || "",
           price: parseFloat(formData.price || 0),
-          location: formData.location.toLowerCase(),
+          location: formData.location,
           houseType: formData.houseType,
           images: ""
         },
