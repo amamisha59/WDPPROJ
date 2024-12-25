@@ -21,7 +21,7 @@ import { useState, useEffect } from "react";
 import Footer from "./components/Footer";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4001/api",
+  uri: "https://wdpproj.onrender.com/api",
 });
 
 const authLink = setContext((_, { headers }) => {
