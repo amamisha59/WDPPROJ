@@ -61,7 +61,7 @@ function BuyerDashBoard() {
         parseFloat(filterData.minPrice),
         parseFloat(filterData.maxPrice),
       ];
-    } else if (filterData.minPrice) {
+    } else if (filterData.minPrice){
       priceRange = [parseFloat(filterData.minPrice), Number.MAX_SAFE_INTEGER];
     } else if (filterData.maxPrice) {
       priceRange = [0, parseFloat(filterData.maxPrice)];
