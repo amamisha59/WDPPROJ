@@ -25,7 +25,14 @@ const navigate = useNavigate();
       <div className="relative z-40 min-h-screen flex items-center justify-center">
         <div className="max-w-md w-full mx-4 bg-black/50 backdrop-blur-xl rounded-2xl shadow-2xl p-8 space-y-8">
           <div className="text-center space-y-2">
-            <h1 className="text-4xl font-bold text-white drop-shadow-lg bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
+            <h1
+              className="text-4xl font-bold drop-shadow-lg"
+              style={{
+                background: 'linear-gradient(to right, #3b82f6, #10b981)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               Welcome to Our HomeHunt
             </h1>
             <p className="text-gray-200 text-lg drop-shadow-md">
